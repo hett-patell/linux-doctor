@@ -13,15 +13,15 @@ copy-paste fix. It remembers your last run, so every report tells you what's
 new, what got fixed, and what stayed the same.
 
 > Its own code never modifies your system. Drop-in checks
-> (`~/.config/linux-doctor/checks/`) and the Pro add-on are code **you**
-> install and run with your privileges — see
+> (`~/.config/linux-doctor/checks/`) and the Pro add-on are code that **you**
+> install and run with your own privileges — see
 > [docs/configuration.md](docs/configuration.md#plugins-custom-checks).
 
 - 🎯 **One clear next step** — every report leads with ▶ START HERE, the single most useful action, not a wall of graphs
 - 🧠 **Memory built in** — health score (0–100), trend sparkline, and a plain-language NEW/FIXED diff on every run
-- 🔒 **Read-only by construction** — it never changes your system; fixes are suggestions you run yourself (optional `--fix` is dry-run first, double opt-in)
+- 🔒 **Read-only by construction** — it never changes your system; fixes are suggestions you run yourself (the optional `--fix` shows a dry run first, and running it takes a second opt-in)
 - 🖥️ **CLI + desktop app** — terminal report, web dashboard, and a Tauri desktop app (AppImage / deb / rpm) sharing the exact same checks
-- 📦 **Runs anywhere** — `npx`, npm, AUR, RPM spec, `.deb`, AppImage; graceful on immutable distros (Silverblue, Bazzite)
+- 📦 **Runs anywhere** — `npx`, npm, AUR, RPM spec, `.deb`, AppImage; works gracefully on immutable distros (Silverblue, Bazzite)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/demo.gif" alt="linux-doctor in a terminal: health score, START HERE action, and findings with plain-English explanations and fixes" width="760">
@@ -65,7 +65,8 @@ chmod +x Linux.Doctor_*_amd64.AppImage
 ./Linux.Doctor_*_amd64.AppImage
 ```
 
-Also attached to each release: `.deb` (Debian/Ubuntu) and the CLI tarball.
+Also attached to each release: `.deb` (Debian/Ubuntu), `.rpm`
+(Fedora/RHEL/openSUSE) and the CLI tarball.
 AppImage runs on most distributions (glibc-based); on immutable systems
 (Fedora Silverblue, Bazzite) it works out of the box. **Nothing needs to be
 installed** — the desktop packages embed their own Node.js 22 runtime
@@ -224,14 +225,14 @@ report still works.
 - ~~Report history and change detection~~ — shipped: health score, NEW/FIXED diff
 - ~~More checks: Bluetooth, Wayland, backup, hardware errors, LUKS~~ — shipped
 - Auto-generated, distro-specific fix instructions
-- Signed store installers and a `.desktop` launcher for the GUI
+- Signed store installers (Flathub) and AppStream metadata in every package
 - **Maintenance:** single maintainer, AI-assisted. Roadmap lives in CHANGELOG
   [Unreleased] and in GitHub issues — security fixes within days,
   contributions welcome.
 
 ## Transparency
 
-Development is AI-assisted and the author is the driver of every decision.
+Development is AI-assisted, and every decision is the author's.
 Accountability is by artifacts: 600+ automated tests (golden snapshots,
 shell-safety, output-parity), CI on Fedora + Node 20/22/24, read-only by
 construction with a pinned safe-fix catalog. Judge it by those artifacts.
