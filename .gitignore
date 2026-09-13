@@ -8,7 +8,10 @@ src-tauri/target/
 src-tauri/gen/
 PRO_BOARD_PRIVATE.md
 pro/
-docs/research-user-needs.md
-docs/research-gtm-strategy.md
+# internal planning docs (kept local only, never published)
+docs/research-*
+docs/audit-*
+docs/analiza-*
+docs/screenshots/audit-*/
 launch/
 src-tauri/runtime/

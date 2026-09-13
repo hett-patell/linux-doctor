@@ -14,9 +14,19 @@
     "LICENSE",
     "COMMERCIAL-LICENSE.md",
     "CONTRIBUTING.md",
-    "docs",
-    "packaging"
+    "packaging",
+    "docs/checks.md",
+    "docs/cli.md",
+    "docs/configuration.md",
+    "docs/dashboard.md",
+    "docs/integrations.md",
+    "docs/output-parity.md",
+    "docs/severity.md",
+    "docs/RELEASING.md",
+    "docs/screenshots/dashboard-dark.png",
+    "docs/screenshots/dashboard-light.png"
   ],
+
   "scripts": {
     "test": "node --test",
     "goldens:update": "node scripts/update-goldens.mjs",

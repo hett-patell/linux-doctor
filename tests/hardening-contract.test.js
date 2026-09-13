@@ -1,5 +1,5 @@
 /**
- * Hardening contracts from the app-delta audit (docs/audit-app-delta-2026.md).
+ * Hardening contracts from the app-delta hardening audit.
  * Source-level tripwires so the P0/P1 fixes cannot silently regress:
  *  - every GitHub Action is pinned to a full commit SHA (supply chain);
  *  - the bundled Node fetch uses a hardcoded hash, not a same-origin one;
