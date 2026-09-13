@@ -122,6 +122,20 @@ jobs:
           # `npx tauri signer generate` and stored as a repo secret.
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+      # AppImageHub (and other catalogs) expect <repo>-<version>-<arch>.AppImage,
+      # so rename Tauri's "<Product>_<version>_<arch>.AppImage" before the
+      # manifest is built — latest.json and the .sig follow the new name.
+      - name: Rename the AppImage to the catalog convention
+        run: |
+          set -euo pipefail
+          VER=${GITHUB_REF#refs/tags/}; VER=${VER#v}
+          ARCH=$(uname -m)   # x86_64 on the ubuntu-22.04 runner
+          cd src-tauri/target/release/bundle/appimage
+          f=$(ls *.AppImage | head -n1)
+          test -f "$f.sig"
+          mv "$f" "linux-doctor-${VER}-${ARCH}.AppImage"
+          mv "$f.sig" "linux-doctor-${VER}-${ARCH}.AppImage.sig"
+          ls -la
       - name: Build the updater manifest (latest.json)
         run: |
           set -euo pipefail

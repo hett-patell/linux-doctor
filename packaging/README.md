@@ -106,11 +106,14 @@ Discover can show name, description, screenshots and release notes.
 ## AppImageHub
 
 The catalog (`github.com/AppImage/appimage.github.io`, one file per app under
-`data/`) takes a repo or download URL. Submit:
+`data/`) takes a **single line**: the GitHub repo URL (the file name is the
+catalog entry name). The AppImage must follow the catalog naming convention —
+`<repo>-<version>-<arch>.AppImage` — which `release.yml` now enforces by
+renaming Tauri's output. Submit:
 
 ```bash
-cp packaging/appimagehub/LinuxDoctor /tmp/appimagehub-data/LinuxDoctor
-# fork github.com/AppImage/appimage.github.io, drop the file in data/, open a PR
+# fork github.com/AppImage/appimage.github.io and add the file to data/
+cp packaging/appimagehub/Linux_Doctor /tmp/appimagehub-data/Linux_Doctor
 ```
 
 AppImageHub then discovers the AppImage from the GitHub releases.

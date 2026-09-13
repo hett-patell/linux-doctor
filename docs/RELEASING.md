@@ -10,7 +10,7 @@ Pushing a tag `vX.Y.Z` triggers `.github/workflows/release.yml`:
 | Job | Runs on | Produces |
 |---|---|---|
 | **cli** | ubuntu-latest | `linux-doctor-X.Y.Z.tgz` (npm pack, after `npm test`) + `SHA256SUMS` |
-| **gui** | ubuntu-22.04 | `Linux.Doctor_X.Y.Z_amd64.AppImage` (+ `.sig`), `Linux.Doctor_X.Y.Z_amd64.deb`, `Linux.Doctor-X.Y.Z-1.x86_64.rpm`, `latest.json`, `SHA256SUMS-bundles.txt` |
+| **gui** | ubuntu-22.04 | `linux-doctor-X.Y.Z-x86_64.AppImage` (+ `.sig`), `Linux.Doctor_X.Y.Z_amd64.deb`, `Linux.Doctor-X.Y.Z-1.x86_64.rpm`, `latest.json`, `SHA256SUMS-bundles.txt` |
 
 Both jobs attach their files to the same GitHub Release. Release notes are
 extracted verbatim from `CHANGELOG.md` via `awk` (body_path), not auto-generated. Each asset gets a Sigstore attestation via `actions/attest`. The gui job builds on 22.04 on
@@ -104,7 +104,7 @@ must be refetched after a clean checkout.
 ## Asset naming convention
 
 ```
-Linux.Doctor_0.3.0_amd64.AppImage     # primary download
+linux-doctor-0.3.0-x86_64.AppImage    # primary download (catalog convention)
 Linux.Doctor_0.3.0_amd64.deb          # Debian/Ubuntu
 Linux.Doctor-0.3.0-1.x86_64.rpm       # Fedora/RHEL/openSUSE
 linux-doctor-0.3.0.tgz                # npm CLI tarball
@@ -115,8 +115,8 @@ linux-doctor-0.3.0.tgz                # npm CLI tarball
 ```
 🩺 Linux Doctor v0.3.0
 
-Download `Linux.Doctor_0.3.0_amd64.AppImage`, then:
-  chmod +x Linux.Doctor_*_amd64.AppImage && ./Linux.Doctor_*_amd64.AppImage
+Download `linux-doctor-0.3.0-x86_64.AppImage`, then:
+  chmod +x linux-doctor-*-x86_64.AppImage && ./linux-doctor-*-x86_64.AppImage
 
 CLI users: npx github:zShaD0w7x/linux-doctor  (Node ≥ 20)
 Read-only diagnostics — it never modifies your system.

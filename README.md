@@ -58,11 +58,11 @@ it *alongside* your monitoring stack, not instead of it.
 
 Desktop app — no install, no package manager:
 
-- **[Latest release](https://github.com/zShaD0w7x/linux-doctor/releases/latest)** — grab `Linux.Doctor_<version>_amd64.AppImage`
+- **[Latest release](https://github.com/zShaD0w7x/linux-doctor/releases/latest)** — grab `linux-doctor-<version>-x86_64.AppImage`
 
 ```bash
-chmod +x Linux.Doctor_*_amd64.AppImage
-./Linux.Doctor_*_amd64.AppImage
+chmod +x linux-doctor-*-x86_64.AppImage
+./linux-doctor-*-x86_64.AppImage
 ```
 
 Also attached to each release: `.deb` (Debian/Ubuntu), `.rpm`
@@ -91,7 +91,7 @@ Set `LINUX_DOCTOR_HARDWARE_GL=1` to force hardware rendering. On v0.3.2
 or older, launch with:
 
 ```bash
-LIBGL_ALWAYS_SOFTWARE=1 ./Linux.Doctor_*_amd64.AppImage
+LIBGL_ALWAYS_SOFTWARE=1 ./linux-doctor-*-x86_64.AppImage
 ```
 </details>
 
