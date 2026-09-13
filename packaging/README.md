@@ -30,10 +30,10 @@ rm -rf linux-doctor-$VERSION
 
 ```bash
 git clone ssh://aur@aur.archlinux.org/linux-doctor.git /tmp/aur
-cp packaging/PKGBUILD /tmp/aur/
-# fill in the real sha256sums, then:
+cp packaging/aur/PKGBUILD packaging/aur/.SRCINFO /tmp/aur/
+# bump pkgver + sha256sums first (see the header comment in the PKGBUILD), then:
 cd /tmp/aur && makepkg -f && makepkg --printsrcinfo > .SRCINFO
-git add . && git commit -m "linux-doctor 0.2.0" && git push
+git add . && git commit -m "linux-doctor 0.6.0" && git push
 ```
 
 ## Fedora / RHEL (COPR)
@@ -42,11 +42,11 @@ git add . && git commit -m "linux-doctor 0.2.0" && git push
 
 ```bash
 copr-cli create linux-doctor --chroot fedora-42-x86_64
-copr-cli build linux-doctor packaging/linux-doctor.spec \
-  --srpm --spec packaging/linux-doctor.spec --git-url https://github.com/zShaD0w7x/linux-doctor
+# Source0 in the spec is the release tarball URL, so COPR fetches it directly:
+copr-cli build linux-doctor packaging/linux-doctor.spec
 ```
 
-(Or drop the tarball into `~/rpmbuild/SOURCES/` and `rpmbuild -ba` locally.)
+(Or, with the tarball in `~/rpmbuild/SOURCES/`: `rpmbuild -ba packaging/linux-doctor.spec`.)
 
 ## Debian/Ubuntu
 
@@ -115,22 +115,17 @@ cp packaging/appimagehub/LinuxDoctor /tmp/appimagehub-data/LinuxDoctor
 
 AppImageHub then discovers the AppImage from the GitHub releases.
 
-## Flathub (planned)
+## Flathub / Flatpak — intentionally not a target
 
-Tauri 2 has no `flatpak` bundle target, so Flathub needs a **source manifest**
-(`flatpak-builder`) rather than a prebuilt bundle:
+Linux Doctor is a **system diagnostic**: its checks read the host's systemd,
+journal, SMART data, package databases, `/proc` and `/sys`, and run host
+commands. A Flatpak sandbox hides exactly those, so a Flathub build would
+report mostly skipped or failed checks — a broken product, not a packaged one.
+Tauri 2 also has no `flatpak` bundle target, so it would need a source
+manifest on top of that. The same reasoning applies to strict Snap
+confinement; a **classic** Snap could work but needs store approval and a
+Snapcraft account.
 
-1. `runtime: org.gnome.Platform` + `sdk: org.gnome.Sdk`, plus the
-   `org.freedesktop.Sdk.Extension.node20` and `...rust-stable` extensions.
-2. Vendored sources: the git tag, `cargo vendor` output, and the pinned Node
-   runtime (`scripts/fetch-node-runtime.mjs`) as an archive with checksums.
-3. Build: `npm run build:gui` then `tauri build`, install the binary, the
-   `com.zshadow7x.linuxdoctor.desktop` entry, the metainfo and the
-   `icons/` PNGs under `/app/share/...`.
-4. Open a PR against `flathub/flathub` with `com.zshadow7x.linuxdoctor.yml`
-   and the `flathub.json` (disable the `aarch64` build until tested).
-
-This is a multi-iteration effort (offline cargo/npm); treat it as the next
-milestone rather than a one-shot. Until then, AppImage + `.deb`/`.rpm` +
-AUR/COPR are the supported desktop channels.
+The supported desktop channels are **AppImage**, **`.deb`/`.rpm`**, **AUR**
+and **COPR** — all of which run with normal host access.
 

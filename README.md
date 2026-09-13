@@ -107,7 +107,7 @@ npm install -g linux-doctor && linux-doctor
 
 Prefer a native CLI package?
 
-- **Arch / AUR:** `yay -S linux-doctor` — [PKGBUILD](packaging/PKGBUILD)
+- **Arch / AUR:** `makepkg -si` from the [PKGBUILD](packaging/aur/PKGBUILD) (AUR package `linux-doctor`)
 - **Fedora / RHEL / Bazzite / openSUSE:** build an RPM with the [linux-doctor.spec](packaging/linux-doctor.spec) or via COPR — details in [packaging/README.md](packaging/README.md)
 - **Debian / Ubuntu:** `.deb` from [Latest release](https://github.com/zShaD0w7x/linux-doctor/releases/latest)
 - **Any glibc distro:** AppImage or `npx github:zShaD0w7x/linux-doctor`
@@ -225,7 +225,7 @@ report still works.
 - ~~Report history and change detection~~ — shipped: health score, NEW/FIXED diff
 - ~~More checks: Bluetooth, Wayland, backup, hardware errors, LUKS~~ — shipped
 - Auto-generated, distro-specific fix instructions
-- Signed store installers (Flathub) and AppStream metadata in every package
+- Signed packages on AUR/COPR and AppStream metadata in every package (Flatpak is not a fit — see [packaging/README.md](packaging/README.md))
 - **Maintenance:** single maintainer, AI-assisted. Roadmap lives in CHANGELOG
   [Unreleased] and in GitHub issues — security fixes within days,
   contributions welcome.

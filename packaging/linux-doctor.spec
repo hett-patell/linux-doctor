@@ -1,14 +1,13 @@
 # RPM spec for linux-doctor (Fedora / RHEL / COPR).
-# Build from the npm tarball produced by `npm pack` at a release tag:
-#   VERSION=0.2.0; npm pack && mv linux-doctor-*.tgz ~/rpmbuild/SOURCES/linux-doctor-$VERSION.tar.gz
-# npm pack tarballs extract to a `package/` directory, hence -n package.
+# Source0 is the npm tarball attached to the GitHub release; it extracts to a
+# `package/` directory, hence -n package.
 Name:           linux-doctor
 Version:        0.6.0
 Release:        1%{?dist}
 Summary:        Read-only health checks for your Linux system
 License:        GPL-3.0-or-later
 URL:            https://github.com/zShaD0w7x/linux-doctor
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{url}/releases/download/v%{version}/%{name}-%{version}.tgz
 BuildArch:      noarch
 Requires:       nodejs >= 20
 
@@ -25,7 +24,7 @@ health score, history, and a web dashboard.
 mkdir -p %{buildroot}%{_libdir}/linux-doctor/src-gui %{buildroot}%{_bindir}
 cp -r bin src package.json README.md LICENSE %{buildroot}%{_libdir}/linux-doctor/
 install -Dm644 src-gui/index.html %{buildroot}%{_libdir}/linux-doctor/src-gui/index.html
-ln -s %{_libdir}/linux-doctor/bin/doctor.js %{buildroot}%{_bindir}/linux-doctor
+ln -s "$(realpath --relative-to=%{buildroot}%{_bindir} %{buildroot}%{_libdir}/linux-doctor/bin/doctor.js)" %{buildroot}%{_bindir}/linux-doctor
 chmod 0755 %{buildroot}%{_libdir}/linux-doctor/bin/doctor.js
 
 %files
@@ -33,21 +32,23 @@ chmod 0755 %{buildroot}%{_libdir}/linux-doctor/bin/doctor.js
 %{_bindir}/linux-doctor
 
 %changelog
-* Sun, Sep 13, 2026 Linux Doctor <maintainer@example.com> - 0.6.0-1
+* Sun Sep 13 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.6.0-1
 - Sync to 0.6.0
 
-* Sat, Sep 05, 2026 Linux Doctor <maintainer@example.com> - 0.5.0-1
+* Sat Sep 05 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.5.0-1
 - Sync to 0.5.0
 
-* Fri, Aug 28, 2026 Linux Doctor <maintainer@example.com> - 0.4.0-1
+* Fri Aug 28 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.4.0-1
 - Sync to 0.4.0
 
-* Thu, Aug 27, 2026 Linux Doctor <maintainer@example.com> - 0.3.5-1
+* Thu Aug 27 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.3.5-1
 - Sync to 0.3.5
 
-* Wed Aug 27 2026 Linux Doctor <maintainer@example.com> - 0.3.4-1
+* Thu Aug 27 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.3.4-1
 - Sync to 0.3.4
-* Tue Aug 18 2026 Linux Doctor <maintainer@example.com> - 0.2.0-1
+
+* Tue Aug 18 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.2.0-1
 - Sync to 0.2.0; add audio and containers checks
-* Tue Aug 18 2026 Linux Doctor <maintainer@example.com> - 0.1.0-1
+
+* Tue Aug 18 2026 zShaD0w7x <zshadow7x@users.noreply.github.com> - 0.1.0-1
 - Initial packaging

@@ -1,14 +1,15 @@
-# Maintainer: Linux Doctor <maintainer@example.com>
+# Maintainer: zShaD0w7x <zshadow7x@users.noreply.github.com>
 # Arch Linux package for linux-doctor.
 #
 # Source: the GitHub release tag tarball (same tree as the npm tarball).
 # It extracts to linux-doctor-$pkgver/ — the primary layout below; an npm
 # `package/` layout (from `npm pack`) also works as a fallback in package().
 #
-# IMPORTANT: on every version bump, replace sha256sums with the real
-# sha256sum of the new tarball — AUR rejects ('SKIP') for fixed sources:
+# IMPORTANT: on every version bump, update sha256sums with the real sha256 of
+# the new tarball (AUR rejects the source otherwise) and regenerate .SRCINFO:
 #   curl -sLO https://github.com/zShaD0w7x/linux-doctor/archive/refs/tags/v$pkgver.tar.gz
 #   sha256sum v$pkgver.tar.gz
+#   makepkg --printsrcinfo > .SRCINFO
 pkgname=linux-doctor
 pkgver=0.6.0
 pkgrel=1
@@ -18,7 +19,7 @@ url="https://github.com/zShaD0w7x/linux-doctor"
 license=('GPL-3.0-or-later')
 depends=('nodejs>=20')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/zShaD0w7x/linux-doctor/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('908a74b60cdb651dded257e5b2f3174feed3874a75549b86e0b34dfb7507bf29')
 
 package() {
   # GitHub tag tarballs extract to $srcdir/linux-doctor-$pkgver/; an npm
