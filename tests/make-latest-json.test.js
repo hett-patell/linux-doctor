@@ -1,11 +1,12 @@
 /**
  * The updater manifest is assembled by scripts/make-latest-json.mjs (the Tauri
- * CLI does not write it). Pinned here with synthetic signed artifacts.
+ * CLI does not write it). Pinned here with synthetic signed artifacts, placed
+ * in the nested layout the bundler actually produces (bundle/appimage/…).
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,11 +14,13 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SCRIPT = join(ROOT, "scripts", "make-latest-json.mjs");
 
-test("make-latest-json: builds the manifest from a signed AppImage", () => {
+test("make-latest-json: finds the signed AppImage in the nested bundle layout", () => {
   const dir = mkdtempSync(join(tmpdir(), "ld-upd-"));
   try {
-    writeFileSync(join(dir, "Linux Doctor_0.6.0_amd64.AppImage"), "appimage");
-    writeFileSync(join(dir, "Linux Doctor_0.6.0_amd64.AppImage.sig"), "SIGCONTENT\n");
+    const appimage = join(dir, "appimage");
+    mkdirSync(appimage);
+    writeFileSync(join(appimage, "Linux Doctor_0.6.0_amd64.AppImage"), "appimage");
+    writeFileSync(join(appimage, "Linux Doctor_0.6.0_amd64.AppImage.sig"), "SIGCONTENT\n");
     execFileSync("node", [SCRIPT, dir, "0.6.0", "v0.6.0", "zShaD0w7x/linux-doctor"], { stdio: "pipe" });
     const m = JSON.parse(readFileSync(join(dir, "latest.json"), "utf8"));
     assert.equal(m.version, "0.6.0");
@@ -32,7 +35,9 @@ test("make-latest-json: builds the manifest from a signed AppImage", () => {
 test("make-latest-json: fails clearly when no signed artifact exists", () => {
   const dir = mkdtempSync(join(tmpdir(), "ld-upd-"));
   try {
-    writeFileSync(join(dir, "Linux.Doctor_0.6.0_amd64.AppImage"), "appimage"); // no .sig
+    const appimage = join(dir, "appimage");
+    mkdirSync(appimage);
+    writeFileSync(join(appimage, "Linux.Doctor_0.6.0_amd64.AppImage"), "appimage"); // no .sig
     assert.throws(() => execFileSync("node", [SCRIPT, dir, "0.6.0", "v0.6.0", "o/r"], { stdio: "pipe" }));
   } finally {
     rmSync(dir, { recursive: true, force: true });

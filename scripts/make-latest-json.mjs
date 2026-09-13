@@ -16,8 +16,8 @@
  * e.g.
  *   node scripts/make-latest-json.mjs src-tauri/target/release/bundle 0.6.0 v0.6.0 zShaD0w7x/linux-doctor
  */
-import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, readFileSync, writeFileSync, existsSync, statSync } from "node:fs";
+import { join, basename } from "node:path";
 
 const [dir, version, tag, repo, outArg] = process.argv.slice(2);
 if (!dir || !version || !tag || !repo) {
@@ -26,18 +26,27 @@ if (!dir || !version || !tag || !repo) {
 }
 
 /** The release workflow normalizes spaces in asset names. */
-const assetName = (f) => f.replaceAll(" ", ".");
+const assetName = (f) => basename(f).replaceAll(" ", ".");
+
+/** All files under `root`, recursively (Tauri nests bundle/appimage/, bundle/deb/…). */
+function walk(root) {
+  const out = [];
+  for (const name of readdirSync(root)) {
+    const p = join(root, name);
+    if (statSync(p).isDirectory()) out.push(...walk(p));
+    else out.push(p);
+  }
+  return out;
+}
 
 function findArtifact() {
   if (!existsSync(dir)) return null;
-  const files = readdirSync(dir);
-  // Prefer the updater's tar.gz when present (Tauri may emit it), else the
-  // AppImage itself; both are signed as `<name>.sig`.
-  const candidates = files.filter((f) => /\.AppImage(\.tar\.gz)?$/.test(f));
-  for (const f of candidates) {
-    const sig = `${f}.sig`;
-    if (files.includes(sig)) {
-      return { file: f, sigFile: join(dir, sig) };
+  // Prefer the updater's tar.gz when present, else the AppImage itself;
+  // both are signed as `<name>.sig`.
+  const candidates = walk(dir).filter((p) => /\.AppImage(\.tar\.gz)?$/.test(p));
+  for (const p of candidates) {
+    if (existsSync(`${p}.sig`)) {
+      return { file: p, sigFile: `${p}.sig` };
     }
   }
   return null;
@@ -45,7 +54,7 @@ function findArtifact() {
 
 const found = findArtifact();
 if (!found) {
-  console.error(`no signed AppImage found in ${dir} — is TAURI_SIGNING_PRIVATE_KEY set?`);
+  console.error(`no signed AppImage found under ${dir} — is TAURI_SIGNING_PRIVATE_KEY set?`);
   process.exit(1);
 }
 
