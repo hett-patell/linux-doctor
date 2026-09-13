@@ -133,10 +133,15 @@ jobs:
       - name: Verify the bundled Node runtime is inside the packages
         run: |
           set -euo pipefail
+          # Extract the deb and locate the bundled interpreter instead of
+          # assuming its exact path/prefix (the tar member path varies).
           DEB=$(ls src-tauri/target/release/bundle/deb/*.deb | head -n1)
-          dpkg-deb --fsys-tarfile "$DEB" | tar -xO "./usr/lib/Linux Doctor/runtime/node" > /tmp/pkg-node
-          chmod +x /tmp/pkg-node
-          /tmp/pkg-node --version
+          rm -rf /tmp/debroot && mkdir -p /tmp/debroot
+          dpkg-deb -x "$DEB" /tmp/debroot
+          NODE=$(find /tmp/debroot -type f -path '*runtime/node' | head -n1)
+          test -n "$NODE"
+          chmod +x "$NODE"
+          "$NODE" --version
           sudo apt-get install -y -q rpm >/dev/null
           RPM=$(ls src-tauri/target/release/bundle/rpm/*.rpm | head -n1)
           rpm -qlp "$RPM" | grep -q "runtime/node"
