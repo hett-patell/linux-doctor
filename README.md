@@ -24,8 +24,35 @@ new, what got fixed, and what stayed the same.
 - 📦 **Runs anywhere** — `npx`, npm, AUR, RPM spec, `.deb`, AppImage; graceful on immutable distros (Silverblue, Bazzite)
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/demo.gif" alt="linux-doctor in a terminal: health score, START HERE action, and findings with plain-English explanations and fixes" width="760">
+</p>
+
+<p align="center">
   <img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/dashboard-light.png" alt="Linux Doctor dashboard (light): health score, START HERE action, findings grouped by severity" width="49%"><img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/dashboard-dark.png" alt="Linux Doctor dashboard (dark): health score, START HERE action, findings grouped by severity" width="49%">
 </p>
+
+## Why Linux Doctor?
+
+Linux already has the data — `journalctl`, `systemctl --failed`, `df`, `free`,
+`smartctl` — but not the answer. It hands you raw output and leaves you to find
+the line that matters. Linux Doctor reads the same sources and returns the
+**conclusion**: what is wrong, why it matters, and the one command to fix it.
+
+It is deliberately **a doctor, not a monitor**. It does not stream metrics,
+manage processes, or sit in the background waiting to page you. It answers
+"what's wrong right now?" in seconds, remembers the previous answer, and tells
+you what changed. That is a different job from a monitoring stack:
+
+| Tool | Job |
+|---|---|
+| Uptime Kuma, Beszel, Netdata | always-on metrics, uptime, alerting |
+| Cockpit | interactive server administration |
+| `inxi` / `neofetch` | hardware and system *inventory* |
+| **Linux Doctor** | **diagnose → explain → suggest a fix → remember what changed** |
+
+Run it when something feels off, before filing a bug report, or daily from a
+`systemd` timer — and get one clear next step instead of a wall of graphs. Use
+it *alongside* your monitoring stack, not instead of it.
 
 ## Download the app (recommended)
 
@@ -205,7 +232,7 @@ report still works.
 ## Transparency
 
 Development is AI-assisted and the author is the driver of every decision.
-Accountability is by artifacts: 540+ automated tests (golden snapshots,
+Accountability is by artifacts: 600+ automated tests (golden snapshots,
 shell-safety, output-parity), CI on Fedora + Node 20/22/24, read-only by
 construction with a pinned safe-fix catalog. Judge it by those artifacts.
 
