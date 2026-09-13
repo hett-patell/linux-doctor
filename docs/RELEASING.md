@@ -43,6 +43,23 @@ git push origin v0.4.0            # triggers release.yml -> tgz + AppImage/deb/r
 # 3. verify Release: SHA256SUMS, CHANGELOG body, --version matches tag
 ```
 
+## Publish to npm (manual)
+
+The `npm publish` step in `release.yml` is disabled (`if: false`): npm now
+stages new publishes for malware scanning (5–15 min) and needs auth the tag
+workflow does not carry. Publish from the release commit instead:
+
+```bash
+git checkout v0.6.0        # the tag, so the tarball matches the release
+npm publish                # needs an npm token with 2FA
+npm view linux-doctor version   # confirm it went live (a few minutes later)
+```
+
+`linux-doctor@0.6.0` is live, so `npx linux-doctor` and
+`npm i -g linux-doctor` resolve to it. Only publish a version that does not
+exist yet — the registry rejects a second upload of the same version (409),
+and a first upload sits in staging for a few minutes before it appears.
+
 ## Build the GUI locally (optional)
 
 Needs WebKitGTK/GTK3 dev libraries, which immutable systems (Bazzite,
