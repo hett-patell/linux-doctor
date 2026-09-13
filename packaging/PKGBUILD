@@ -10,7 +10,7 @@
 #   curl -sLO https://github.com/zShaD0w7x/linux-doctor/archive/refs/tags/v$pkgver.tar.gz
 #   sha256sum v$pkgver.tar.gz
 pkgname=linux-doctor
-pkgver=0.5.0
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="Read-only health checks for your Linux system — finds real problems, explains them, and tells you how to fix them"
 arch=('any')

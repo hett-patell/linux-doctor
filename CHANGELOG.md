@@ -4,148 +4,9 @@ All notable changes to Linux Doctor are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/) and versioning follows
 [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [0.6.0] — 2026-09-13
 
-### Security
-
-- **Credentials in endpoint URLs are redacted before printing.** An
-  `https://user:pass@host` endpoint's password no longer appears in error
-  messages, the daemon banner, or the "sent" lines.
-- **The support bundle scrubs every field, not just the four known ones.**
-  A plugin can attach arbitrary extra fields to a finding; those used to
-  travel raw into the bundle. The whole finding is now walked.
-- **Loopback report endpoints are cached, single-flight, and bounded.** The
-  desktop's `GET /report` and the web dashboard's `/api/report` serve a 10s
-  cached report; concurrent requests share one scan, so a drive-by page
-  (`<img src="127.0.0.1:…">`) can no longer trigger a scan storm. The tray
-  "Run checks now" coalesces repeat clicks, and connections get a read
-  timeout (slowloris). Explicit reloads — first paint and "Re-run checks" —
-  send `?refresh=1` to bypass the cache.
-- **Dashboard polls no longer write history.** The desktop `/report` runs the
-  CLI with `LINUX_DOCTOR_NO_SAVE=1`: the 20s poll still reads history (the
-  new/fixed diff stays honest) but never appends a run, so polls cannot
-  churn the trend.
-- **Egress endpoints are checked by destination, not just scheme.**
-  `--push`, `--alert`, `--heartbeat` and `--ai` now refuse private/LAN
-  address literals (RFC1918, link-local including the cloud metadata
-  address, CGNAT, IPv6 ULA/link-local) unless `--allow-private-endpoint` is
-  passed for a self-hosted server. All four also refuse HTTP redirects, so
-  an allowed URL cannot bounce the payload to an internal target.
-  `LLM_BASE_URL` goes through the same guard: an API key can no longer be
-  sent to a plaintext non-loopback LLM endpoint.
-- **Webhook and fleet payloads carry scrubbed finding text.** `--alert`
-  titles and `--push` finding text (title/detail/evidence/fix) plus the AI
-  summary are redacted like `--md`; `hostname`/`machineId` stay, by design,
-  so a fleet can tell machines apart. The ntfy docs now warn that a public
-  topic exposes that identity.
-- **`--html` exports are scrubbed like `--md`.** The whole embedded payload
-  is walked (`scrubDeep`) so IPs and `/home`, `/run/media`, `/media` paths
-  are redacted in every field — including `nextAction` and the diff — and
-  the machine hostname is replaced with `<hostname-redacted>`.
-- **State files are written atomically and privately.** `config.json` (which
-  may hold the Pro license key), history, cache, the support bundle and the
-  systemd units now go through one `atomicWrite()` helper: a unique temp
-  sibling opened `O_CREAT|O_EXCL` (a planted symlink fails instead of being
-  written through), `0600` files in `0700` directories, replaced by rename.
-- **A corrupt config is no longer silent.** `loadConfig()` warns once instead
-  of dropping the user's ignore list, thresholds and license key without a
-  word — the loss used to be invisible and sticky.
-- **Scrubber covers removable-media paths.** `/run/media/<user>` and
-  `/media/<user>` are redacted alongside `/home` and `/var/home`.
-- **`--html` exports can no longer be weaponized.** The report JSON is now
-  embedded through `jsonForInlineScript()`, which escapes `<` as `\u003c`:
-  a finding field containing `</script>` (a crafted journal line, container
-  or unit name) can no longer close the tag and execute markup in whoever
-  opens the file. The data still round-trips byte-identically.
-- **`scrub()` is now linear.** The IPv6 pattern allowed empty groups and
-  backtracked quadratically — a crafted colon run (100k chars) hung the
-  timer run, `--support`, `--md` and `--ai`. Rewritten with mandatory
-  consumption and a bounded compressed form: 1M colons now scrub in ~6ms.
-  Bonus: C++ scope chains like `std::vector` are no longer redacted.
-- **The dashboard system header escapes its payload fields.** `distro`,
-  `kernel` and `uptime` (root-controlled `/etc/os-release` on a compromised
-  image) now go through `esc()` like every other system-derived sink.
-- **Release workflow: least privilege and tag-gated publishing.** The default
-  token is now `contents: read` (write scopes only on the two build jobs), a
-  manual `workflow_dispatch` run can no longer publish or attest anything
-  (those steps are gated on `refs/tags/v`), and a `concurrency` group
-  serializes releases per ref.
-- **Release pipeline hardened: every GitHub Action is pinned to a full commit
-  SHA** in `ci.yml` and `release.yml`. Previously the refs were mutable major
-  tags — and `dtolnay/rust-toolchain@stable` was a moving *branch* — inside
-  workflows that hold `contents: write` + `id-token: write`. A hijacked
-  action could previously change what the release jobs executed.
-- **Bundled Node runtime updated and hash-pinned.** `scripts/fetch-node-runtime.mjs`
-  now ships Node **v22.23.2** (was v22.14.0, missing four security releases)
-  and verifies the tarball against a **hardcoded sha256** rather than a
-  checksum fetched from the same origin — a compromised nodejs.org can no
-  longer substitute the binary that ends up in every package. The fetch also
-  uses a private `mkdtemp` workdir (no predictable `/tmp` paths) and cleans
-  up after itself.
-
-### Changed
-
-- **Dashboard "Re-run checks" now records the run in history.** The trend and
-  the new/fixed diff advance exactly when the user asks for a run (with a
-  confirmation toast); the 20s background auto-refresh still never writes
-  history, so polling cannot churn it.
-- **Docs: support-bundle privacy claims corrected** (it carries no config —
-  which may hold a license key — and a 5-run score/counts-only tail), and
-  the plugin/Pro **trust model** is now stated in the README and
-  docs/configuration.md: drop-in code runs with your full privileges.
-- **`npm run gui:build` / `gui:dev` fetch the bundled Node runtime first**
-  (a no-op when the right version is already present), so a local desktop
-  build can no longer package a stale or missing interpreter. The README now
-  says nothing needs installing and notes the ~130 MB the runtime adds.
-- **Releases smoke-check the packages before publishing.** The gui job now
-  asserts the built `.deb`/`.rpm` actually contain `runtime/node` and runs the
-  bundled interpreter (`--version`) — an absent or wrong runtime fails CI
-  before anything is attested or attached.
-- **The desktop window now fits the screen instead of a fixed 1500×950.**
-  It opens centered at up to 1500×950 (the full wide workbench), clamped to
-  the monitor minus a margin and never below 900×640 — a 1366×768 laptop
-  gets ~1286×688, a large monitor gets the full workbench. The window is
-  shown only after sizing, so there is no resize flash on launch.
-
-### Fixed
-
-- **A malformed threshold can no longer become 0.** `Number("")` and
-  `Number([])` are both 0, so a config like `"diskFullPct": []` silently
-  turned into a 0 threshold that flagged everything. Only a real number or a
-  non-empty numeric string is accepted now (CLI, dashboard and config all
-  share one coercion).
-- **Wide dashboard hygiene:** the detail pane escapes severity and duration
-  like every other field, `aria-pressed` follows grouping set from the URL,
-  and the "no findings match" message no longer lands in the pane column.
-- **Rust children also drop `NODE_OPTIONS`/`NODE_PATH`** alongside the
-  existing `LD_*` scrubbing, so a poisoned environment cannot inject a
-  preload module into the Node checks.
-- **Start-at-login no longer lies.** The tray toggle re-reads the real
-  autostart state after enabling/disabling, reflects *that* in the checkbox,
-  and logs the actual outcome — a failed `enable()` no longer reports success.
-  The toggle is also panic-safe (it runs outside the tray's fail-soft guard).
-- **URL state: `?view=` deep links now win over the remembered view.** The
-  last-viewed preference no longer overwrites a view named in the URL, and
-  the URL's view is persisted so the next plain load lands on it.
-- **Search text is no longer written to the URL.** Full-text search terms
-  (hostnames, unit/container names, paths) were persisted into the browser
-  history on every keystroke; `?q=` is still read from an explicitly crafted
-  link, but never produced automatically — the tool's local-only promise now
-  holds in the address bar too.
-- **Wide desktop: scrolling looked broken (overlapping text).** The sticky
-  toolbar — and the scrolled header/status bar — were transparent, so the
-  findings showed through the chrome as they passed underneath; the sticky
-  detail pane also tucked under the toolbar. All sticky chrome — including
-  the status bar, which a dead CSS rule had left translucent — is now
-  opaque at ≥1440px, the pane sticks below the toolbar, and the row-level
-  `content-visibility` optimization was dropped (it renders as artifacts in
-  the desktop app's WebKitGTK engine).
-- **Desktop app: the dashboard could never parse a report.** The loopback
-  report server wrote an extra CRLF after the CORS block, ending the HTTP
-  headers early and leaking `Content-Length`/`Connection` into the JSON body
-  — every `res.json()` in the app window failed, so it never rendered a
-  report. The response head is now built in one place with exactly one
-  header terminator, pinned by a regression test.
+> **Highlights:** the desktop grows into a real app — bundled Node runtime, tray + single-instance + autostart, **auto-update**, adaptive window — and the dashboard gets a wide-screen workbench (master-detail, status bar, deep-linkable state). A correctness pass fixes checks that were silently wrong or could never fire, and a hardening pass covers state files, outbound data and the release pipeline. No breaking changes; the JSON schema stays v1.
 
 ### Added
 
@@ -157,19 +18,152 @@ All notable changes to Linux Doctor are documented here. The format follows
   release fails fast if the signing secret is missing. On Linux the updatable
   artifact is the AppImage (deb/rpm stay package-manager updates).
   `LINUX_DOCTOR_NO_UPDATE=1` disables the check.
-- **The desktop app is a tray app.** It now handles a second launch by
-  surfacing the existing window (single-instance, no second report server
-  losing the fixed port), a tray icon with Open / Run checks now /
-  Start at login (official autostart plugin) / Check for updates / Quit, all
-  handled Rust-side (Tauri IPC is not used in this stack). Missing-tray
-  systems fail soft — the app continues without the tray.
-- **The desktop app now bundles its own Node runtime.** The .deb/.AppImage/.rpm
-  packages ship a pinned Node 22 LTS binary under `<resources>/runtime/node`,
-  hash-checked against the official SHASUMS256.txt at build time
-  (`scripts/fetch-node-runtime.mjs`). The app no longer requires Node.js
-  installed on the user's machine — the first thing an installed app checks
-  is its own runtime. `LINUX_DOCTOR_NODE` and PATH keep working as
-  overrides/fallbacks.
+- **The desktop app is a tray app.** A second launch surfaces the existing
+  window (single-instance, no second report server losing the fixed port); the
+  tray offers Open / Run checks now / Start at login (official autostart
+  plugin) / Check for updates / Quit, all handled Rust-side (Tauri IPC is not
+  used in this stack). Missing-tray systems fail soft.
+- **The desktop app bundles its own Node runtime.** .deb/.AppImage/.rpm ship a
+  pinned Node 22 LTS binary under `<resources>/runtime/node`, hash-checked
+  against the official SHASUMS256.txt at build time — end users need nothing
+  on their PATH. The fetch is architecture-aware (x64 + arm64), so a local
+  arm64 build embeds the right runtime. `LINUX_DOCTOR_NODE` still overrides.
+- **Wide-screen desktop workbench (≥1440px).** The app shell uncaps and fills
+  the monitor; Overview becomes a master-detail view — the findings list stays
+  put while the selected finding renders in a pinned detail pane. Findings
+  groups open, rows densify, and a persistent status bar shows the active view,
+  freshness and the keyboard map. Below 1440px everything is unchanged.
+- **Deep-linkable dashboard state.** View, severity filter, grouping, theme and
+  density travel in the URL (`?view=checks&sev=high&group=category&theme=terminal`),
+  so a refresh or a pasted link restores the exact workbench. Free-text search
+  is deliberately never written to the URL.
+- **`--debug` command tracing and a per-check deadline.** `--debug` (or
+  `LINUX_DOCTOR_DEBUG=1`) traces every spawned command, its duration, status
+  and (on failure) the stdout/stderr tail to stderr — stdout stays
+  machine-clean. Each check is now capped at 45s wall-clock (recorded in
+  `checkErrors`), so a check with many sequential commands cannot stretch a run.
+- **`--allow-private-endpoint`** for `--push`/`--alert`/`--heartbeat`/`--ai`:
+  opt in to a self-hosted LAN server that the new destination guard would
+  otherwise refuse.
+
+### Changed
+
+- **Dashboard "Re-run checks" records the run in history.** The trend and the
+  new/fixed diff advance when the user asks for a run (with a confirmation
+  toast); the 20s background auto-refresh still never writes history.
+- **Redundant probes removed.** The Fedora package check no longer runs two
+  full `rpm -Va` verifications whose result was never used; the apt orphan
+  check runs `apt-get -s autoremove` once (count + sample); `glxinfo` is
+  memoized per run (was spawned by both the gpu and wayland checks); the
+  hardware check reads the kernel log once instead of twice.
+- **The desktop window fits the screen** instead of a fixed 1500×950: centered,
+  clamped to the monitor minus a margin, never below 900×640, shown only after
+  sizing (no resize flash).
+- **`npm run gui:build` / `gui:dev` fetch the bundled Node runtime first** (a
+  no-op when the right version is present), so a local build cannot package a
+  stale or missing interpreter.
+- **Releases smoke-check the packages** before publishing: the gui job asserts
+  the built `.deb`/`.rpm` contain `runtime/node` and runs the bundled
+  interpreter.
+- **Docs:** support-bundle privacy claims corrected; the plugin/Pro trust model
+  is stated in the README and configuration.md; README notes the bundled
+  runtime and its ~130 MB size.
+
+### Fixed
+
+- **`smart/failing` could never fire.** `smartctl -H` exits non-zero when a
+  drive is FAILING, and the code skipped any non-zero result before reading the
+  health string — a failing disk was silently ignored. The health string is now
+  read first; a dying disk is reported as high.
+- **Desktop machines were classified as servers.** The profile probe read
+  `loginctl`'s UID column instead of the seat, so every battery-less desktop was
+  "headless" and all desktop checks (wifi, gpu, bluetooth, wayland, audio,
+  cache) were skipped. The probe now finds the seat token regardless of column
+  layout (shared with the wayland check).
+- **The crash check reported the lifetime boot count.** `journalctl --list-boots`
+  ignores `--since`; the boot count is now computed from the JSON form and
+  filtered to the last 7 days — "62 reboots in the last 7 days" became the true
+  count.
+- **Atomic detection on composefs-overlay distros.** `findmnt -T /` reports
+  `overlay` on Bazzite/Silverblue, so `immutable` disagreed with `imageBased`
+  and atomic skips plus the report note were suppressed; `immutable` now also
+  derives from the os-release `imageBased`/`bootc` signals.
+- **The `locales` and `fds` checks could never fire.** `locales` runs with
+  `LC_ALL` unset for its one probe (the forced `LC_ALL=C` masked the exact error
+  it looks for); `fds` now measures per-process pressure against
+  `RLIMIT_NOFILE` (the real "too many open files" mode) because `fs.file-max` is
+  effectively unlimited on modern kernels.
+- **One OOM kill looked like a pattern.** The oom check counted log lines; one
+  kill writes both a "Killed process" and a "reaped process" line, so it was
+  reported as two kills at high. It now counts distinct PIDs.
+- **No more false "no firewall" without root.** `nft list ruleset` needs
+  CAP_NET_ADMIN; when the ruleset cannot be read and no firewall service is
+  active the result is a new `security/firewall-unknown` (info, no fix) instead
+  of claiming there is no firewall, and `ports` says "firewall status unknown".
+- **Fedora-family updates had no safe fix.** The catalog switched on a
+  `family === "rhel"` case that `detectDistro` never returns (it normalizes to
+  `fedora`); Fedora/RHEL now get `sudo dnf upgrade`.
+- **Alpine/BusyBox no longer go quiet.** Missing `getent` is `network/skipped`
+  (was a false "DNS is failing"); an unusable `df`/`df -i` is
+  `disk/skipped`/`inodes/skipped`; `free` without an `available` column falls
+  back to `/proc/meminfo`; `fstrim` no longer counts zram/loop devices as SSDs.
+- **`durations` matches its schema.** `--json --profile` emitted an array while
+  the schema (and the dashboard) used a check→ms object; both channels now emit
+  the object.
+- **A malformed threshold can no longer become 0.** `Number("")`/`Number([])`
+  are 0; only a real number or non-empty numeric string is accepted now (CLI,
+  dashboard and config share one coercion).
+- **Dashboard Re-run/history, URL state, and the wide layout:** `?view=` deep
+  links win over the remembered view; search text is no longer written to the
+  URL; the desktop shell detects the webview via `tauri://localhost` too and
+  surfaces the real service error; the static `--html` export keeps the Skipped
+  section; sticky chrome is opaque (the toolbar/status bar no longer show
+  content through them) and the detail pane sticks below the toolbar.
+- **Desktop app: the dashboard could never parse a report.** The loopback
+  report server wrote an extra CRLF after the CORS block, leaking
+  `Content-Length`/`Connection` into the JSON body. Fixed with a regression
+  test.
+- **Start-at-login no longer lies.** The toggle re-reads the real autostart
+  state, reflects it in the checkbox, and logs the actual outcome; it is also
+  panic-safe.
+- **Rust children drop `NODE_OPTIONS`/`NODE_PATH`** alongside `LD_*`, so a
+  poisoned environment cannot inject a preload module into the Node checks.
+
+### Security
+
+- **State files are written atomically and privately.** config.json (which may
+  hold the Pro license key), history, cache, the support bundle and systemd
+  units go through one `atomicWrite()` helper: a unique temp sibling opened
+  `O_CREAT|O_EXCL` (a planted symlink fails instead of being written through),
+  `0600` files in `0700` directories, replaced by rename.
+- **Egress is checked by destination, not just scheme.** `--push`, `--alert`,
+  `--heartbeat` and `--ai` refuse private/LAN address literals (RFC1918,
+  link-local including the cloud metadata address, CGNAT, IPv6
+  ULA/link-local) unless `--allow-private-endpoint` is passed, and all four
+  refuse HTTP redirects. `LLM_BASE_URL` goes through the same guard: an API key
+  can no longer be sent to a plaintext non-loopback endpoint.
+- **Destructive safe-fixes are now `[manual]`.** Enabling a firewall (ufw can
+  lock out SSH), package autoremove, container prune and Trash deletion are
+  printed but never auto-executed by `--fix --yes` — a false positive can no
+  longer delete packages/data or cut a remote session.
+- **Outbound and shared data is scrubbed.** `--alert`/`--push` carry scrubbed
+  finding text; `--html` is scrubbed like `--md` (whole payload + hostname);
+  the support bundle walks every field (plugin extras included); endpoint
+  credentials are redacted from messages; `scrub()` is linear (a crafted colon
+  run could hang a run); `/run/media` and `/media` user paths are redacted.
+- **`--html` can no longer be weaponized.** The payload is embedded through
+  `jsonForInlineScript()` (`<` → `\u003c`), so a `</script>` in any field
+  cannot close the tag; the dashboard header escapes its payload fields.
+- **Loopback report endpoints are cached and single-flight.** Repeated/drive-by
+  requests share one scan, the tray's "Run checks now" coalesces, and
+  connections get a read timeout; dashboard polls never write history.
+- **A corrupt config is no longer silent**, and the dashboard rejects
+  cross-origin writes and non-loopback Host headers as before.
+- **Release pipeline hardened.** Every GitHub Action is pinned to a full commit
+  SHA; the default token is `contents: read` with write scopes only on the two
+  build jobs; publish/attest steps are gated on `refs/tags/v`; and the bundled
+  Node is hash-pinned (v22.23.2).
+
 
 ## [0.5.0] — 2026-09-05
 
