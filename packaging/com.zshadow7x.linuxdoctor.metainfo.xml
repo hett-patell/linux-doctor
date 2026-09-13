@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.zshadow7x.linuxdoctor</id>
+  <launchable type="desktop-id">com.zshadow7x.linuxdoctor.desktop</launchable>
+  <name>Linux Doctor</name>
+  <summary>Read-only health checks that explain what's wrong and how to fix it</summary>
+
+  <developer id="io.github.zshadow7x">
+    <name>zShaD0w7x</name>
+  </developer>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <description>
+    <p>
+      Linux Doctor runs safe, read-only checks and returns the conclusion instead
+      of a wall of raw output: what is wrong, why it matters, and the one command
+      to fix it. It remembers the previous run, so every report tells you what is
+      new, what got fixed, and what stayed the same.
+    </p>
+    <p>
+      It is deliberately a doctor, not a monitor — it does not stream metrics or
+      sit in the background waiting to page you. Run it when something feels off,
+      before you file a bug report, or daily from a timer.
+    </p>
+    <ul>
+      <li>Health score (0–100) with an auditable breakdown</li>
+      <li>NEW/FIXED diff and a trend line on every run</li>
+      <li>One clear next step (▶ START HERE) instead of a wall of graphs</li>
+      <li>CLI, web dashboard, and desktop app sharing the exact same checks</li>
+      <li>Read-only by construction — fixes are suggestions you run yourself</li>
+    </ul>
+    <p>
+      Runs on any glibc distribution, including immutable systems such as Fedora
+      Silverblue and Bazzite.
+    </p>
+  </description>
+
+  <categories>
+    <category>System</category>
+    <category>Monitor</category>
+    <category>Utility</category>
+  </categories>
+
+  <keywords>
+    <keyword>health</keyword>
+    <keyword>diagnostics</keyword>
+    <keyword>troubleshooting</keyword>
+    <keyword>system</keyword>
+    <keyword>doctor</keyword>
+  </keywords>
+
+  <url type="homepage">https://github.com/zShaD0w7x/linux-doctor</url>
+  <url type="bugtracker">https://github.com/zShaD0w7x/linux-doctor/issues</url>
+  <url type="vcs-browser">https://github.com/zShaD0w7x/linux-doctor</url>
+  <url type="help">https://github.com/zShaD0w7x/linux-doctor/blob/main/docs/cli.md</url>
+  <url type="contribute">https://github.com/zShaD0w7x/linux-doctor/blob/main/CONTRIBUTING.md</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/dashboard-light.png</image>
+      <caption>Health score, START HERE action, and findings grouped by severity.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/dashboard-dark.png</image>
+      <caption>The same dashboard in the dark theme.</caption>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1"/>
+
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+
+  <recommends>
+    <display_length compare="ge">800</display_length>
+  </recommends>
+
+  <releases>
+    <release version="0.6.0" date="2026-09-13">
+      <url>https://github.com/zShaD0w7x/linux-doctor/releases/tag/v0.6.0</url>
+    </release>
+    <release version="0.5.0" date="2026-09-05"/>
+    <release version="0.4.0" date="2026-08-28"/>
+  </releases>
+
+  <provides>
+    <binary>linux-doctor</binary>
+  </provides>
+</component>

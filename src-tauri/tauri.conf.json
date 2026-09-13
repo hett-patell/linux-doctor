@@ -47,6 +47,29 @@
       "../src-gui/index.html": "src-gui/index.html",
       "../package.json": "package.json",
       "runtime/node": "runtime/node"
+    },
+    "linux": {
+      "deb": {
+        "desktopTemplate": "../packaging/desktop-template.desktop",
+        "files": {
+          "/usr/share/metainfo/com.zshadow7x.linuxdoctor.metainfo.xml": "../packaging/com.zshadow7x.linuxdoctor.metainfo.xml",
+          "/usr/share/icons/hicolor/128x128/apps/com.zshadow7x.linuxdoctor.png": "../packaging/icons/com.zshadow7x.linuxdoctor.png",
+          "/usr/share/icons/hicolor/256x256/apps/com.zshadow7x.linuxdoctor.png": "../packaging/icons/com.zshadow7x.linuxdoctor@2x.png"
+        }
+      },
+      "rpm": {
+        "desktopTemplate": "../packaging/desktop-template.desktop",
+        "files": {
+          "/usr/share/metainfo/com.zshadow7x.linuxdoctor.metainfo.xml": "../packaging/com.zshadow7x.linuxdoctor.metainfo.xml",
+          "/usr/share/icons/hicolor/128x128/apps/com.zshadow7x.linuxdoctor.png": "../packaging/icons/com.zshadow7x.linuxdoctor.png",
+          "/usr/share/icons/hicolor/256x256/apps/com.zshadow7x.linuxdoctor.png": "../packaging/icons/com.zshadow7x.linuxdoctor@2x.png"
+        }
+      },
+      "appimage": {
+        "files": {
+          "/usr/share/metainfo/com.zshadow7x.linuxdoctor.metainfo.xml": "../packaging/com.zshadow7x.linuxdoctor.metainfo.xml"
+        }
+      }
     }
   },
   "plugins": {
