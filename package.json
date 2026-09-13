@@ -31,7 +31,7 @@
     "test": "node --test",
     "goldens:update": "node scripts/update-goldens.mjs",
     "demo:gif": "node scripts/demo-gif.mjs",
-    "demo:app": "node scripts/demo-app-gif.mjs",
+    "demo:app": "bash scripts/demo-app-gif.sh",
     "build:gui": "node scripts/build-gui.mjs",
     "gui:dev": "node scripts/fetch-node-runtime.mjs && tauri dev",
     "gui:build": "node scripts/fetch-node-runtime.mjs && tauri build"
