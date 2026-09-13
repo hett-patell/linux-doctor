@@ -355,7 +355,13 @@ fn response_head(status: &str, cors: &str, body_len: usize) -> String {
     )
 }
 
-fn handle_client(mut stream: TcpStream, root: &PathBuf, node: &PathBuf, report_cache: &Cache, checks_cache: &Cache) {
+fn handle_client(
+    mut stream: TcpStream,
+    root: &PathBuf,
+    node: &PathBuf,
+    report_cache: &Cache,
+    checks_cache: &Cache,
+) {
     // A client that opens a socket and never finishes its request must not
     // pin a thread forever (slowloris).
     let _ = stream.set_read_timeout(Some(Duration::from_secs(15)));
@@ -457,7 +463,9 @@ fn handle_client(mut stream: TcpStream, root: &PathBuf, node: &PathBuf, report_c
     let (status, body) = match (method.as_str(), route) {
         ("OPTIONS", _) => ("204 No Content", Vec::new()),
         ("GET", "/report") | ("GET", "/report/") => {
-            match cached_collect(report_cache, REPORT_TTL, refresh || save, || collect_report(root, node, save)) {
+            match cached_collect(report_cache, REPORT_TTL, refresh || save, || {
+                collect_report(root, node, save)
+            }) {
                 Ok(bytes) => ("200 OK", bytes),
                 Err(msg) => (
                     "500 Internal Server Error",
@@ -466,7 +474,9 @@ fn handle_client(mut stream: TcpStream, root: &PathBuf, node: &PathBuf, report_c
             }
         }
         ("GET", "/checks") | ("GET", "/checks/") => {
-            match cached_collect(checks_cache, CHECKS_TTL, false, || collect_checks(root, node)) {
+            match cached_collect(checks_cache, CHECKS_TTL, false, || {
+                collect_checks(root, node)
+            }) {
                 Ok(bytes) => ("200 OK", bytes),
                 Err(msg) => (
                     "500 Internal Server Error",
@@ -512,11 +522,7 @@ fn handle_client(mut stream: TcpStream, root: &PathBuf, node: &PathBuf, report_c
         ),
     };
 
-    let _ = write!(
-        stream,
-        "{}",
-        response_head(status, &cors, body.len())
-    );
+    let _ = write!(stream, "{}", response_head(status, &cors, body.len()));
     let _ = stream.write_all(&body);
 }
 
@@ -567,8 +573,12 @@ pub fn run() {
             }));
             match tray_result {
                 Ok(Ok(())) => {}
-                Ok(Err(e)) => eprintln!("⚠️  linux-doctor: tray unavailable ({e}) — continuing without it"),
-                Err(_) => eprintln!("⚠️  linux-doctor: no system tray library — continuing without it"),
+                Ok(Err(e)) => {
+                    eprintln!("⚠️  linux-doctor: tray unavailable ({e}) — continuing without it")
+                }
+                Err(_) => {
+                    eprintln!("⚠️  linux-doctor: no system tray library — continuing without it")
+                }
             }
             fit_window(app);
             // Quiet startup update check a few seconds in, so it never races
@@ -661,7 +671,11 @@ fn check_for_updates(app: &tauri::AppHandle, user_initiated: bool) {
 /// presence with Open / Run checks now / Start at login / Quit. Everything
 /// is handled Rust-side — Tauri IPC does not work in this stack, so the
 /// menu never touches the webview.
-fn build_tray(app: &tauri::App, root: &PathBuf, node: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+fn build_tray(
+    app: &tauri::App,
+    root: &PathBuf,
+    node: &PathBuf,
+) -> Result<(), Box<dyn std::error::Error>> {
     use tauri::menu::{CheckMenuItemBuilder, MenuBuilder, MenuItemBuilder};
     use tauri::tray::TrayIconBuilder;
 
@@ -706,7 +720,9 @@ fn build_tray(app: &tauri::App, root: &PathBuf, node: &PathBuf) -> Result<(), Bo
                 // coalesce, not stack.
                 static RUN_IN_FLIGHT: AtomicBool = AtomicBool::new(false);
                 if RUN_IN_FLIGHT.swap(true, Ordering::SeqCst) {
-                    eprintln!("linux-doctor: a check run is already in flight — ignoring the click");
+                    eprintln!(
+                        "linux-doctor: a check run is already in flight — ignoring the click"
+                    );
                 } else {
                     // Same discipline as the report server's children: no env
                     // leakage, daemon-style one-shot with the desktop
@@ -715,7 +731,8 @@ fn build_tray(app: &tauri::App, root: &PathBuf, node: &PathBuf) -> Result<(), Bo
                     let root = root.clone();
                     let node = node.clone();
                     thread::spawn(move || {
-                        let (_code, _out, _err) = run_cli(&root, &node, &["bin/doctor.js", "--notify"]);
+                        let (_code, _out, _err) =
+                            run_cli(&root, &node, &["bin/doctor.js", "--notify"]);
                         RUN_IN_FLIGHT.store(false, Ordering::SeqCst);
                     });
                 }
@@ -765,7 +782,9 @@ fn build_tray(app: &tauri::App, root: &PathBuf, node: &PathBuf) -> Result<(), Bo
 /// therefore gets a comfortable ~1286×688 window, a 4K monitor gets the
 /// 1500×950 workbench, and nothing ever opens larger than the display.
 fn fit_window(app: &tauri::App) {
-    let Some(win) = app.get_webview_window("main") else { return };
+    let Some(win) = app.get_webview_window("main") else {
+        return;
+    };
     if let Ok(Some(monitor)) = win.current_monitor() {
         let logical = monitor.size().to_logical::<f64>(monitor.scale_factor());
         let w = (logical.width - 80.0).clamp(900.0, 1500.0);
@@ -872,7 +891,11 @@ mod tests {
 
         let cors = "Access-Control-Allow-Origin: tauri://localhost\r\nVary: Origin\r\n";
         let with_cors = response_head("200 OK", cors, 7);
-        assert_eq!(with_cors.matches("\r\n\r\n").count(), 1, "cors: {with_cors:?}");
+        assert_eq!(
+            with_cors.matches("\r\n\r\n").count(),
+            1,
+            "cors: {with_cors:?}"
+        );
         assert!(with_cors.ends_with("\r\n\r\n"));
         assert!(with_cors.contains("Vary: Origin\r\nContent-Length: 7\r\n"));
     }
@@ -906,10 +929,27 @@ mod tests {
             calls.fetch_add(1, O::SeqCst);
             Ok::<Vec<u8>, String>(vec![7])
         };
-        assert_eq!(cached_collect(&slot, Duration::from_secs(60), false, &run).unwrap(), vec![7]);
-        assert_eq!(cached_collect(&slot, Duration::from_secs(60), false, &run).unwrap(), vec![7]);
-        assert_eq!(calls.load(O::SeqCst), 1, "a second call within the TTL must hit the cache");
-        assert_eq!(cached_collect(&slot, Duration::from_secs(60), true, &run).unwrap(), vec![7]);
-        assert_eq!(calls.load(O::SeqCst), 2, "refresh must bypass a fresh cache entry");
+        assert_eq!(
+            cached_collect(&slot, Duration::from_secs(60), false, &run).unwrap(),
+            vec![7]
+        );
+        assert_eq!(
+            cached_collect(&slot, Duration::from_secs(60), false, &run).unwrap(),
+            vec![7]
+        );
+        assert_eq!(
+            calls.load(O::SeqCst),
+            1,
+            "a second call within the TTL must hit the cache"
+        );
+        assert_eq!(
+            cached_collect(&slot, Duration::from_secs(60), true, &run).unwrap(),
+            vec![7]
+        );
+        assert_eq!(
+            calls.load(O::SeqCst),
+            2,
+            "refresh must bypass a fresh cache entry"
+        );
     }
 }

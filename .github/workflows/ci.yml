@@ -114,6 +114,11 @@ jobs:
       - uses: swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
           workspaces: src-tauri
+      # tauri-build validates bundle.resources at compile time; the bundled
+      # Node runtime is fetched only in the release job. A placeholder file
+      # keeps the tests/lint compiling — they never launch the app.
+      - name: Placeholder for the bundled Node runtime resource
+        run: mkdir -p src-tauri/runtime && touch src-tauri/runtime/node
       - name: Rust unit tests (loopback guards, host parsing)
         run: cargo test --manifest-path src-tauri/Cargo.toml
 
@@ -136,6 +141,8 @@ jobs:
           workspaces: src-tauri
       - name: cargo fmt --check
         run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
+      - name: Placeholder for the bundled Node runtime resource
+        run: mkdir -p src-tauri/runtime && touch src-tauri/runtime/node
       - name: cargo clippy (-D warnings)
         run: cargo clippy --manifest-path src-tauri/Cargo.toml --locked --all-targets --all-features -- -D warnings
 
