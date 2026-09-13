@@ -218,3 +218,9 @@ test("planFixes: hostile finding text cannot escape into a command", () => {
     assert.match(cmd, /'[A-Za-z0-9_.@\\-]+\.(?:service|timer|socket|target)'/, `unit must be single-quoted: ${cmd}`);
   }
 });
+
+test("planFixes: fedora-family updates map to dnf upgrade (rhel was unreachable)", () => {
+  const plan = planFixes([{ id: 1, code: "updates/pending", severity: "medium", title: "t" }], { system: { family: "fedora" } });
+  assert.deepEqual(plan[0].commands.map((c) => c.cmd), ["sudo dnf upgrade"]);
+  assert.equal(plan[0].commands[0].tier, "apply");
+});

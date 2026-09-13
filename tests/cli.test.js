@@ -571,3 +571,12 @@ test("network: fast DNS does NOT produce a slow finding", async () => {
   const findings = await network.run(ctx);
   assert.ok(!findings.some((f) => f.code === "network/dns-slow"), "fast DNS must not produce a slow finding");
 });
+
+test("--json --profile emits durations as an object (matches the schema)", () => {
+  const res = run("--check", "load", "--json", "--profile");
+  assert.ok(res.status === 0 || res.status === 1, `exit ${res.status}`);
+  const data = JSON.parse(res.stdout);
+  assert.equal(typeof data.durations, "object");
+  assert.ok(!Array.isArray(data.durations), "durations must not be an array");
+  assert.equal(typeof data.durations.load, "number", "should map check → ms");
+});

@@ -1074,7 +1074,10 @@ function printIgnoreLists(titles, codes) {
   if (args.json) {
     console.log(renderJson(displayFindings, system, jsonOptions(report, {
       durationMs,
-      ...(args.profile ? { durations: report.checkDurations } : {}),
+      // The schema documents `durations` as a check→ms object (the dashboard
+      // already serves it that way); emit the same shape here so the two
+      // machine channels agree.
+      ...(args.profile ? { durations: Object.fromEntries((report.checkDurations || []).map((d) => [d.check, d.ms])) } : {}),
     })));
     return findings.some((f) => f.severity === "high" || f.severity === "medium") ? 1 : 0;
   }

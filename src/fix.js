@@ -83,6 +83,9 @@ const CATALOG = {
   "updates/pending": (_f, { family, imageBased } = {}) => {
     if (imageBased) return [{ cmd: "rpm-ostree upgrade", tier: "apply" }];
     switch (family) {
+      // detectDistro normalizes RHEL/CentOS/Rocky/Fedora to "fedora"; "rhel"
+      // is kept for callers/tests that pass it directly.
+      case "fedora":
       case "rhel": return [{ cmd: "sudo dnf upgrade", tier: "apply" }];
       case "debian": return [{ cmd: "sudo apt update && sudo apt upgrade", tier: "apply" }];
       case "arch": return [{ cmd: "sudo pacman -Syu", tier: "apply" }];
