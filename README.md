@@ -28,7 +28,7 @@ new, what got fixed, and what stayed the same.
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/dashboard-light.png" alt="Linux Doctor dashboard (light): health score, START HERE action, findings grouped by severity" width="49%"><img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/dashboard-dark.png" alt="Linux Doctor dashboard (dark): health score, START HERE action, findings grouped by severity" width="49%">
+  <img src="https://raw.githubusercontent.com/zShaD0w7x/linux-doctor/main/docs/screenshots/app.gif" alt="The Linux Doctor dashboard: health score, severity and category filters, a finding's explanation and recommended fix, and the dark theme" width="820">
 </p>
 
 ## Why Linux Doctor?
