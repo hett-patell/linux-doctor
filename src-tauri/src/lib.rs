@@ -20,7 +20,7 @@
 
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::sync::{
     atomic::{AtomicBool, Ordering},
@@ -673,16 +673,16 @@ fn check_for_updates(app: &tauri::AppHandle, user_initiated: bool) {
 /// menu never touches the webview.
 fn build_tray(
     app: &tauri::App,
-    root: &PathBuf,
-    node: &PathBuf,
+    root: &Path,
+    node: &Path,
 ) -> Result<(), Box<dyn std::error::Error>> {
     use tauri::menu::{CheckMenuItemBuilder, MenuBuilder, MenuItemBuilder};
     use tauri::tray::TrayIconBuilder;
 
     // Owned copies: the menu-event closure is 'static (registered for the
     // app's lifetime), so borrowed parameters cannot outlive this call.
-    let root = root.clone();
-    let node = node.clone();
+    let root = root.to_path_buf();
+    let node = node.to_path_buf();
 
     let open = MenuItemBuilder::with_id("open", "Open Linux Doctor").build(app)?;
     let runnow = MenuItemBuilder::with_id("runnow", "Run checks now").build(app)?;
@@ -930,11 +930,11 @@ mod tests {
             Ok::<Vec<u8>, String>(vec![7])
         };
         assert_eq!(
-            cached_collect(&slot, Duration::from_secs(60), false, &run).unwrap(),
+            cached_collect(&slot, Duration::from_secs(60), false, run).unwrap(),
             vec![7]
         );
         assert_eq!(
-            cached_collect(&slot, Duration::from_secs(60), false, &run).unwrap(),
+            cached_collect(&slot, Duration::from_secs(60), false, run).unwrap(),
             vec![7]
         );
         assert_eq!(
@@ -943,7 +943,7 @@ mod tests {
             "a second call within the TTL must hit the cache"
         );
         assert_eq!(
-            cached_collect(&slot, Duration::from_secs(60), true, &run).unwrap(),
+            cached_collect(&slot, Duration::from_secs(60), true, run).unwrap(),
             vec![7]
         );
         assert_eq!(
