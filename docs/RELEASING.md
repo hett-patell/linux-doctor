@@ -110,6 +110,12 @@ Linux.Doctor-0.3.0-1.x86_64.rpm       # Fedora/RHEL/openSUSE
 linux-doctor-0.3.0.tgz                # npm CLI tarball
 ```
 
+The AppImage uses the `<repo>-<version>-<arch>.AppImage` name so catalogs
+(auto-discovering it from the GitHub Releases) work. `release.yml` also
+repacks it to make `AppRun.wrapped` world-executable (0755) — linuxdeploy
+ships it 0770, which breaks sandboxes that mount the AppImage as root and drop
+to a user (Firejail, used by AppImageHub) — and re-signs it for the updater.
+
 ## Release notes (minimum)
 
 ```

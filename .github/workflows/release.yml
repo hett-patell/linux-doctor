@@ -136,6 +136,29 @@ jobs:
           mv "$f" "linux-doctor-${VER}-${ARCH}.AppImage"
           mv "$f.sig" "linux-doctor-${VER}-${ARCH}.AppImage.sig"
           ls -la
+      # linuxdeploy's runtime lands as AppRun.wrapped with mode 0770, so tools
+      # that mount the AppImage as root and drop to a user (Firejail, used by
+      # AppImageHub) hit "Permission denied". Repack with 0755 and re-sign.
+      - name: Make AppRun.wrapped world-executable and re-sign
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y -q squashfs-tools >/dev/null
+          cd src-tauri/target/release/bundle/appimage
+          app=$(ls *.AppImage | head -n1)
+          ./"$app" --appimage-extract >/dev/null
+          chmod 755 squashfs-root/AppRun.wrapped
+          off=$("./$app" --appimage-offset)
+          head -c "$off" "$app" > runtime
+          mksquashfs squashfs-root new.squashfs -root-owned -noappend -quiet -comp zstd
+          cat runtime new.squashfs > fixed.AppImage
+          chmod 755 fixed.AppImage
+          rm -rf squashfs-root new.squashfs runtime
+          mv -f fixed.AppImage "$app"
+          npx tauri signer sign -k "$TAURI_SIGNING_PRIVATE_KEY" -p "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD" "$app"
+          ls -la
       - name: Build the updater manifest (latest.json)
         run: |
           set -euo pipefail
