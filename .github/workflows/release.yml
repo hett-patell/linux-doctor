@@ -130,6 +130,13 @@ jobs:
           node scripts/make-latest-json.mjs \
             src-tauri/target/release/bundle \
             "$VER" "$TAG" "${{ github.repository }}"
+      - name: Verify the updater signature matches the embedded public key
+        run: |
+          set -euo pipefail
+          PUBKEY=$(node -e "console.log(require('./src-tauri/tauri.conf.json').plugins.updater.pubkey)")
+          APPIMAGE=$(ls src-tauri/target/release/bundle/appimage/*.AppImage | head -n1)
+          node scripts/verify-updater-signature.mjs \
+            "$PUBKEY" "$APPIMAGE.sig" "$APPIMAGE" src-tauri/target/release/bundle/latest.json
       - name: Verify the bundled Node runtime is inside the packages
         run: |
           set -euo pipefail

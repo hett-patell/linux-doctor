@@ -117,6 +117,10 @@ disables it (dev/tests).
   from the signed AppImage (`*.AppImage` + `*.AppImage.sig`) during the release
   job — Tauri's CLI does not write it (that is `tauri-action`'s job, which this
   repo does not use).
+- The release then runs `scripts/verify-updater-signature.mjs`, which checks the
+  AppImage's signature and the `latest.json` signature against the **public key
+  embedded in the app** — the same thing the updater does at install time. A
+  release cannot ship an artifact the updater would reject.
 - **Linux auto-update targets the AppImage.** `.deb`/`.rpm` users update
   through their package manager.
 
