@@ -48,6 +48,13 @@ copr-cli build linux-doctor packaging/linux-doctor.spec
 
 (Or, with the tarball in `~/rpmbuild/SOURCES/`: `rpmbuild -ba packaging/linux-doctor.spec`.)
 
+## openSUSE Build Service (OBS) — COPR without a Fedora account
+
+OBS builds the same spec for Fedora/RHEL/openSUSE and hosts the repository, so
+users can add it and update with their package manager. The package files live
+in [`obs/`](obs/README.md); see [obs/README.md](obs/README.md) for the
+account, project and upload steps.
+
 ## Debian/Ubuntu
 
 A `deb` needs a proper maintainer setup (`debian/` control files + `dpkg-buildpackage`).
