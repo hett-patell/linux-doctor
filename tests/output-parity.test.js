@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Output parity — the Phase 2 contract: history numbers are computed ONCE
  * (attachHistory) and every channel renders exactly those numbers. The CLI

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { readFileSync } from "node:fs";
 
 import { SEV_ORDER, SEV_LABEL, countBySeverity } from "./severities.js";

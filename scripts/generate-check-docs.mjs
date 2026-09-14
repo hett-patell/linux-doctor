@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Generate docs/checks.md from the check registry.
  * Keeps the check catalogue in sync with the code — no manual drift.

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { defineCheck } from "./define.js";
 import { parseSize } from "../utils.js";
 import { finding } from "../findings.js";

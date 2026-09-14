@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Distro detection, in one place. Parses /etc/os-release fields (uppercase on
  * real systems, lowercase in test stubs) into a normalized profile that every

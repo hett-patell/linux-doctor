@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Mobile === */
 @media (max-width: 700px) {
   header { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }

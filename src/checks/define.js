@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Standard metadata wrapper for checks. `category` groups checks in --list
  * output; `appliesTo` lists which kinds of systems the check is relevant for

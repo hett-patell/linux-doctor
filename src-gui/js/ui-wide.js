@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Wide-desktop mode (>=1440px) ===
    A PC canvas gets desktop behavior: the shell uncaps (wide.css) and the
    findings groups open — a workbench shows its data, an accordion hides

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === SVG charts: score sparkline + severity bars — premium, compact, diagnostic === */
 function fmtWhen(at) {
   const d = new Date(at);

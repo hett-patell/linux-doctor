@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Dashboard state invariants, evaluated against the BUILT src-gui/index.html
  * in a stubbed browser environment (vm), like tests/gui-smoke.test.js.

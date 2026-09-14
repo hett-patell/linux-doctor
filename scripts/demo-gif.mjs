@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Render docs/screenshots/demo.gif — the real CLI report, revealed inside a
  * terminal window.

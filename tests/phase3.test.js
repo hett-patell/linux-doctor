@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Phase 3 tests: persistent ignore management from the CLI and the healthy
  * state's premium treatment (clean streak across all output channels).

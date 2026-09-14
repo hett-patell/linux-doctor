@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Native desktop notifications via notify-send (freedesktop.org). Used by the
  * CLI run and the --daemon agent when new problems appear, so the user learns

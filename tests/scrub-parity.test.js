@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The scrubber exists in two places (Node src/support.js and the browser
  * src-gui/js/export.js, which is also baked into the committed index.html).

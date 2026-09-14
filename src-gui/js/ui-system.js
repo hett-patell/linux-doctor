@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === System view: the machine wiki ===
    A complete, readable profile from the report payload — no new probes, no
    new endpoints. Sections mirror how admins actually ask about a box: what

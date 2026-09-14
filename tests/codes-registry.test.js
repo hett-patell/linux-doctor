@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Finding-code registry — the drift guard for Phase 1 (findings trust).
  *

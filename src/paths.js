@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Where linux-doctor keeps its files, following the XDG Base Directory spec.
  * Every path honors its per-tool env override first (LINUX_DOCTOR_CONFIG,

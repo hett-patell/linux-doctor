@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Hardening contracts from the app-delta hardening audit.
  * Source-level tripwires so the P0/P1 fixes cannot silently regress:

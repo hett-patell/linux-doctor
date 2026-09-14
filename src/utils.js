@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Safe, read-only command helpers. Every command Linux Doctor runs is
  * non-destructive: we only inspect, we never modify anything.

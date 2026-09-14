@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Verify a Tauri updater signature (minisign format) against the public key
  * embedded in the app, independent of the private key. This is the security

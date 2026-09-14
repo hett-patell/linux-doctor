@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { hostname as osHostname } from "node:os";
 import { run, lines, num } from "../utils.js";
 import { detectDistro } from "../distro.js";

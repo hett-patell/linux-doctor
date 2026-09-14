@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Regenerate the README dashboard screenshots (light + dark).
  *

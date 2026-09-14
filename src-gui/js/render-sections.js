@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Sections: next step, fixed, diff, skipped, check errors === */
 function firstSentence(text) {
   return String(text || "").split(/(?<=\.)\s/)[0].trim();

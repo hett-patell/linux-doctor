@@ -8,6 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 13h4l2.5-7 4 12 3-8 1.5 3H22' fill='none' stroke='%233ee29a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 /* ── base.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === CSS Variables, Reset, Typography === */
 :root {
   /* Native widgets (scrollbars, inputs) follow the dark chrome. */
@@ -80,6 +81,7 @@ body { transition: background-color .15s ease, color .15s ease; }
 
 
 /* ── layout.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Header — reduced chrome === */
 header {
   display: flex; align-items: center; gap: 14px; margin-bottom: 32px;
@@ -401,6 +403,7 @@ footer .sbar-view, footer .sbar-check { display: none; }
 
 
 /* ── cards.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Finding Cards — reduced chrome, diagnostic storytelling === */
 .card {
   background: var(--card); border: 1px solid var(--border);
@@ -558,6 +561,7 @@ body.compact #report { gap: 14px; }
 
 
 /* ── components.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Toast === */
 #toast-wrap { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
 .toast { pointer-events: auto; display: flex; align-items: center; gap: 10px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 13px; box-shadow: var(--shadow); animation: toastin .25s ease, toastout .25s ease 2.7s forwards; max-width: 92vw; }
@@ -813,6 +817,7 @@ body.compact #report { gap: 14px; }
 
 
 /* ── responsive.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Mobile === */
 @media (max-width: 700px) {
   header { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
@@ -863,6 +868,7 @@ body.compact #report { gap: 14px; }
 
 
 /* ── wide.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Wide desktop shell (≥1440px) ===
    Uncaps the phone-first column and puts the monitor to work: fixed rail +
    fluid main, components stretched over the grid, instrument-scale hero.
@@ -974,6 +980,7 @@ body.compact #report { gap: 14px; }
 
 
 /* ── print.css ── */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Print === */
 @media print {
   header .actions, .toolbar, #toast-wrap, footer, .history, #fixed, #skipped, #diff,
@@ -1138,6 +1145,7 @@ body.compact #report { gap: 14px; }
 </div>
 <script>
 /* ── dom.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === DOM helpers === */
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -1151,6 +1159,7 @@ let lastData = null;
 
 
 /* ── state.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Central state store === */
 const SEV = { high: { label: "High", cls: "high" }, medium: { label: "Medium", cls: "medium" }, info: { label: "Info", cls: "info" } };
 
@@ -1212,6 +1221,7 @@ let checksCategoryMap = new Map();
 
 
 /* ── api.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Data fetching === */
 /* Desktop detection must not rely on the injected Tauri global alone: on this
    stack (wry + WebKitGTK) it has been reported missing, and the page is served
@@ -1304,6 +1314,7 @@ async function loadCategoryMap() {
 
 
 /* ── clipboard.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Clipboard === */
 async function copyText(text) {
   try {
@@ -1325,6 +1336,7 @@ async function copyText(text) {
 
 
 /* ── ui-toast.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Toast notifications === */
 function showToast(html, ms = 3000) {
   const wrap = $("#toast-wrap");
@@ -1339,6 +1351,7 @@ function showToast(html, ms = 3000) {
 
 
 /* ── ui-modal.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Shared modal shell === */
 let modalOpener = null;
 
@@ -1405,6 +1418,7 @@ function openHelp() {
 
 
 /* ── ui-theme.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Theme toggle === */
 function currentTheme() { try { return localStorage.getItem("ld-theme") || "auto"; } catch { return "auto"; } }
 /* Theme button icon: crescent for dark, sun for light — each wrapped in the
@@ -1439,6 +1453,7 @@ function cycleTheme() {
 
 
 /* ── ui-keyboard.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Keyboard navigation === */
 function setupKeyboard() {
   document.addEventListener("keydown", (e) => {
@@ -1519,6 +1534,7 @@ function setAllOpen(open) {
 
 
 /* ── ui-filters.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Severity filters + search === */
 let activeFilter = "all";
 
@@ -1672,6 +1688,7 @@ function syncGroupsOpen() {
 
 
 /* ── ui-polling.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Auto-refresh polling === */
 let autoRefresh = true;
 let pollTimer = null;
@@ -1757,6 +1774,7 @@ function setupPolling() {
 
 
 /* ── ui-notify.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Browser desktop notifications === */
 function maybeNotify(data) {
   try {
@@ -1802,6 +1820,7 @@ function setupNotifyButton() {
 
 
 /* ── ui-schedule.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Schedule strip: is the daily check actually scheduled? ===
    The dashboard used to know only "Re-run now". This strip answers the
    follow-up question — will the machine check itself tomorrow? Read-only:
@@ -1903,6 +1922,7 @@ function refreshSchedule() {
 
 
 /* ── ui-thresholds.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Threshold editor panel === */
 let threshData = null;
 
@@ -1977,6 +1997,7 @@ function setupThresholds() {
 
 
 /* ── ui-history.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === History section + chart interaction === */
 let statusTimer = null;
 
@@ -2111,6 +2132,7 @@ function updateChecksBadge(data) {
 
 
 /* ── ui-sidebar.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Overview sidebar: score breakdown bars + severity/category nav === */
 
 function renderSidebar(data, counts) {
@@ -2248,6 +2270,7 @@ function scrollToGroup(type, key) {
 
 
 /* ── ui-views.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === App views: Overview / History / Checks ===
    One page was growing into a long scroll (hero, findings, fixed, skipped,
    history…). Views give every area a home without rewriting any renderer:
@@ -2453,6 +2476,7 @@ function setupViews() {
 
 
 /* ── ui-wide.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Wide-desktop mode (>=1440px) ===
    A PC canvas gets desktop behavior: the shell uncaps (wide.css) and the
    findings groups open — a workbench shows its data, an accordion hides
@@ -2503,6 +2527,7 @@ function setupWideMode() {
 
 
 /* ── ui-detailpane.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Detail pane (wide desktop): list + pinned detail ===
    On >=1440px the Overview becomes a two-pane workbench: the findings list
    stays put on the left, the selected finding's full body renders in a
@@ -2619,6 +2644,7 @@ function setupDetailPane() {
 
 
 /* ── ui-checks.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === All-checks matrix ===
    A diagnostic tool earns trust by showing what it looked AT, not only
    what it found. This modal lists every registered check with its live
@@ -2773,6 +2799,7 @@ function setupChecksView() {
 
 
 /* ── export.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Markdown export — scrubbed, share-ready ===
    Keep this in sync with src/support.js scrub(): linear IPv6 patterns only
    (the old (?:[0-9A-Fa-f]{0,4}:){2,} shape backtracked quadratically). */
@@ -2839,6 +2866,7 @@ function downloadMarkdown(data) {
 
 
 /* ── render-charts.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === SVG charts: score sparkline + severity bars — premium, compact, diagnostic === */
 function fmtWhen(at) {
   const d = new Date(at);
@@ -2934,6 +2962,7 @@ function severityChart(data) {
 
 
 /* ── render-findings.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Finding cards and groups — premium diagnostic storytelling === */
 function durFor(check) {
   try {
@@ -3074,6 +3103,7 @@ function wrongUrl(f) {
 
 
 /* ── render-sections.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Sections: next step, fixed, diff, skipped, check errors === */
 function firstSentence(text) {
   return String(text || "").split(/(?<=\.)\s/)[0].trim();
@@ -3237,6 +3267,7 @@ async function renderSkipped() {
 
 
 /* ── render-status.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Status zone: gauge, score, status message — PREMIUM HIERARCHY === */
 const SCORE_RING_R = 26;
 const SCORE_RING_C = 2 * Math.PI * SCORE_RING_R;
@@ -3380,6 +3411,7 @@ function renderStatus(data) {
 
 
 /* ── ui-system.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === System view: the machine wiki ===
    A complete, readable profile from the report payload — no new probes, no
    new endpoints. Sections mirror how admins actually ask about a box: what
@@ -3441,6 +3473,7 @@ function renderSystemView(data) {
 
 
 /* ── render.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Main render orchestrator === */
 
 function render(data) {
@@ -3510,6 +3543,7 @@ function render(data) {
 
 
 /* ── init.js ── */
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Entry point: load, bind, start === */
 
 // Inline-SVG capability probe. Icons ship as inline SVG (never font glyphs);

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { slugify } from "./utils.js";
 import { SEV_ORDER } from "./severities.js";
 

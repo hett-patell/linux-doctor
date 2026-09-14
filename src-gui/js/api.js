@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Data fetching === */
 /* Desktop detection must not rely on the injected Tauri global alone: on this
    stack (wry + WebKitGTK) it has been reported missing, and the page is served

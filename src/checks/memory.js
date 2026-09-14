@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { lines, num, fmtBytes } from "../utils.js";
 import { pkgInstall } from "../distro.js";
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Theme toggle === */
 function currentTheme() { try { return localStorage.getItem("ld-theme") || "auto"; } catch { return "auto"; } }
 /* Theme button icon: crescent for dark, sun for light — each wrapped in the

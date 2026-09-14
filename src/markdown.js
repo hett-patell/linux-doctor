@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * --md: share-ready Markdown export for forums, GitHub issues, and chat.
  * The paste-on-forum successor of "run inxi and paste the output": the file

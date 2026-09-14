@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Config file (~/.config/linux-doctor/config.json, override with
  * LINUX_DOCTOR_CONFIG). Shared by the ignore list and the threshold tuning;

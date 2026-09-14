@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Load the web dashboard in headless Chromium and verify the invariants that
  * matter: no JS console/page errors, the report renders, "All" is the active

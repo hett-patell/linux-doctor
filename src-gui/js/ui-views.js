@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === App views: Overview / History / Checks ===
    One page was growing into a long scroll (hero, findings, fixed, skipped,
    history…). Views give every area a home without rewriting any renderer:

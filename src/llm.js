@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Optional AI summary. Only used when the user passes --ai and LLM_API_KEY
  * is set. If anything fails, the tool silently falls back to the plain

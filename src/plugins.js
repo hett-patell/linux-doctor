@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Plugin checks: any .js file in the plugin directory is loaded as a check.
  * This lets sysadmins add checks without forking the project — the killer

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The updater manifest is assembled by scripts/make-latest-json.mjs (the Tauri
  * CLI does not write it). Pinned here with synthetic signed artifacts, placed

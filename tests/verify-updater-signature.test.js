@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Pins scripts/verify-updater-signature.mjs against a synthetic minisign key
  * pair. This is the check that proves a released artifact matches the pubkey

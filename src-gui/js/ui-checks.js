@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === All-checks matrix ===
    A diagnostic tool earns trust by showing what it looked AT, not only
    what it found. This modal lists every registered check with its live

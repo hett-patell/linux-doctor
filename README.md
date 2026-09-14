@@ -217,6 +217,8 @@ report still works.
 | [docs/configuration.md](docs/configuration.md) | ignore list, thresholds, plugins, caching, immutable-distro behavior |
 | [docs/integrations.md](docs/integrations.md) | JSON schema v1, `--support` bundles, optional AI summary, fleet reporting |
 | [docs/severity.md](docs/severity.md) | how severities are decided |
+| [docs/monitoring.md](docs/monitoring.md) | watching for clones and impersonation (`scripts/check-clones.mjs`) |
+| [docs/trademark.md](docs/trademark.md) | the name/logo vs. the code license |
 | [CHANGELOG.md](CHANGELOG.md) | every release, Keep-a-Changelog style |
 
 ## Roadmap
@@ -245,11 +247,18 @@ users, GPL-3.0-or-later, forever. Optional paid tiers for power users and
 companies are strictly additive and described in
 [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md).
 
-## License
+## Licensing & brand
 
 **Dual-licensed.**
 
-- [GPL-3.0-or-later](LICENSE) — free for individuals and open-source projects: you may redistribute it and/or modify it, but any derivative work must stay open-source under the same terms.
+- [GPL-3.0-or-later](LICENSE) — free for individuals and open-source projects. You may copy, modify and redistribute it, but any derivative work you distribute must stay open-source under the same terms.
 - [Commercial license](COMMERCIAL-LICENSE.md) — for companies that need to use Linux Doctor inside proprietary products.
 
-By contributing, you agree your contributions are offered under both licenses (see [CONTRIBUTING.md](CONTRIBUTING.md)).
+What that means in practice:
+
+- **Copying the Free edition is allowed** — that is the point of the GPL. Forks are welcome as long as they keep the license and the notices.
+- **It is still not a free-for-all**: a distributed derivative must stay GPL, and shipping the code inside a closed product requires the commercial license. That obligation is enforceable copyright, not a polite request.
+- **The paid tiers' code is not here.** Pro/Business/Enterprise live in private repositories; this edition is, and stays, the whole product for everyday users.
+- **The name and logo are not covered by the code license.** If you fork, ship it under your own name — see [docs/trademark.md](docs/trademark.md).
+
+Every source file carries an `SPDX-License-Identifier: GPL-3.0-or-later` header. By contributing, you agree your contributions are offered under both licenses (see [CONTRIBUTING.md](CONTRIBUTING.md)).

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Detail pane (wide desktop): list + pinned detail ===
    On >=1440px the Overview becomes a two-pane workbench: the findings list
    stays put on the left, the selected finding's full body renders in a

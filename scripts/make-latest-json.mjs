@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Build the Tauri updater manifest (`latest.json`) from signed bundles.
  *

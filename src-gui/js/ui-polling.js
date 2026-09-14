@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Auto-refresh polling === */
 let autoRefresh = true;
 let pollTimer = null;

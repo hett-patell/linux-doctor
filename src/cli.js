@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { readFileSync, writeFileSync } from "node:fs";
 import { atomicWrite } from "./fsx.js";
 import { run, runPool, lines, withDeadline, setDebug } from "./utils.js";

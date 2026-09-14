@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * JSON Schema (draft-07) for `linux-doctor --json` output, schemaVersion 1.
  * `linux-doctor --schema` prints this document, so fleet servers, monitoring

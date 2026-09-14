@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The check registry — the single place a check is registered. Order matters:
  * it is the --list order, and dedupe ties keep the first finding (the

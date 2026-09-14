@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 //! Linux Doctor desktop shell.
 //!
 //! This crate is intentionally thin: it renders the shared dashboard

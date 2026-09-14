@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Bump version in all manifests atomically.
  * Usage: node scripts/bump-version.mjs 0.3.5

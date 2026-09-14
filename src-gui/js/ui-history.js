@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === History section + chart interaction === */
 let statusTimer = null;
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Entry point: load, bind, start === */
 
 // Inline-SVG capability probe. Icons ship as inline SVG (never font glyphs);

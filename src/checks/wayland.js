@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { lines, shq } from "../utils.js";
 import { SESSION_PROBE } from "../profile.js";
 import { detectSoftwareRenderer } from "./shared.js";

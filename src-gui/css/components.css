@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Toast === */
 #toast-wrap { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
 .toast { pointer-events: auto; display: flex; align-items: center; gap: 10px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 13px; box-shadow: var(--shadow); animation: toastin .25s ease, toastout .25s ease 2.7s forwards; max-width: 92vw; }

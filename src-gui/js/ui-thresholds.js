@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Threshold editor panel === */
 let threshData = null;
 

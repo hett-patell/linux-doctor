@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Local web dashboard. `doctor --web` serves a dark, card-based report in the
  * browser at 127.0.0.1. Zero dependencies: plain node:http + inline HTML/CSS/JS.

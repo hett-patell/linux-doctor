@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * File-safety contracts for the state files Linux Doctor owns (audit M3/M8).
  * atomicWrite must: create 0600 files in 0700 dirs, replace atomically, never

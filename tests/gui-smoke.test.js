@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * GUI smoke test: evaluates the dashboard's <script> from the BUILT
  * src-gui/index.html inside a stubbed browser environment (vm).

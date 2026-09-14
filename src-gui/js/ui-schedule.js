@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Schedule strip: is the daily check actually scheduled? ===
    The dashboard used to know only "Re-run now". This strip answers the
    follow-up question — will the machine check itself tomorrow? Read-only:

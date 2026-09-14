@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Support bundle — a single, privacy-safe JSON file a user can attach to a
  * forum post, GitHub issue, or support ticket when asking for help. It is the

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 /* === Print === */
 @media print {
   header .actions, .toolbar, #toast-wrap, footer, .history, #fixed, #skipped, #diff,

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Overview sidebar: score breakdown bars + severity/category nav === */
 
 function renderSidebar(data, counts) {

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Toast notifications === */
 function showToast(html, ms = 3000) {
   const wrap = $("#toast-wrap");

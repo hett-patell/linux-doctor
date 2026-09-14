@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Helpers shared by more than one check. Keeping the detection here means the
  * same root cause is detected — and worded — identically everywhere; see

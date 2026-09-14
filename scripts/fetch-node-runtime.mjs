@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Fetch the pinned Node runtime binary into src-tauri/runtime/node.
  *

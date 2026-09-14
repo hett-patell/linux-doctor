@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Render docs/screenshots/app.gif from the REAL desktop app window.
 #
 # The app runs on an isolated Xvfb display (not your desktop session), is

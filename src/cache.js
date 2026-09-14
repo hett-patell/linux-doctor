@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Tiny TTL cache for slow checks — currently the `updates` check, whose dnf
  * metadata refresh takes seconds. Cache is a bonus, never a dependency: if

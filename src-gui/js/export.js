@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Markdown export — scrubbed, share-ready ===
    Keep this in sync with src/support.js scrub(): linear IPv6 patterns only
    (the old (?:[0-9A-Fa-f]{0,4}:){2,} shape backtracked quadratically). */

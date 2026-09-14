@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Status zone: gauge, score, status message — PREMIUM HIERARCHY === */
 const SCORE_RING_R = 26;
 const SCORE_RING_C = 2 * Math.PI * SCORE_RING_R;

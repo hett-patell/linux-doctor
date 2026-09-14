@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Safe-fix catalog: maps stable finding codes to concrete, whitelisted shell
  * commands. This is the ONLY place commands come from — a finding's free-text

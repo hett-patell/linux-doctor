@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /* === Finding cards and groups — premium diagnostic storytelling === */
 function durFor(check) {
   try {

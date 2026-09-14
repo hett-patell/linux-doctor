@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Ignore list. Users can tell Linux Doctor to stop reporting a finding they
  * have already dealt with (or that is a false positive on their setup) by

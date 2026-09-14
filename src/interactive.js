@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Interactive mode (`--interactive`): a zero-dependency terminal UI over the
  * finished report. Arrow keys pick a finding, Enter opens the details, c

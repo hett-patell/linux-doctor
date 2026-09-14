@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Strict CLI argument parsing. Unknown options, unexpected positional
  * arguments, and value flags without a value are errors (exit 2) — a silent

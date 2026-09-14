@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Behavior tests for checks that previously had none (analysis §7): oom, wifi,
  * orphans, packages, fs, cache. They ran only through the generic all-fail

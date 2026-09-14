@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import { lines, plural, TIMEOUT_MS } from "../utils.js";
 import { readCache, writeCache } from "../cache.js";
 import { defineCheck } from "./define.js";

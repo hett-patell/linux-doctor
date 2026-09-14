@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * The single source of truth for severity semantics: the fixed set of levels,
  * their display labels, the numeric weights used for dedupe tie-breaking, and

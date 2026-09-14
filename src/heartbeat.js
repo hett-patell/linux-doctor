@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Pro dead-man's switch: after every completed run, ping a heartbeat URL
  * (Healthchecks.io, BetterStack, or any URL that alerts on silence). The

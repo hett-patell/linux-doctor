@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Fleet reporting (enterprise): push a report to a central server so
  * companies can collect health data from many machines in one place.

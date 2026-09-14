@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Safe-fix catalog ↔ code registry — bidirectional consistency (Phase 5).
  *

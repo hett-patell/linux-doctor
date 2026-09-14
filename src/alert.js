@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Pro alerting: after a run, POST a compact alert to a webhook when the
  * machine degrades (any high-severity finding, or a new medium/high since the
