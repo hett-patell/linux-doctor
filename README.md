@@ -108,7 +108,7 @@ npm install -g linux-doctor && linux-doctor
 Prefer a native CLI package?
 
 - **Arch / AUR:** `makepkg -si` from the [PKGBUILD](packaging/aur/PKGBUILD) (AUR package `linux-doctor`)
-- **Fedora / RHEL / Bazzite / openSUSE:** build an RPM with the [linux-doctor.spec](packaging/linux-doctor.spec) or via COPR — details in [packaging/README.md](packaging/README.md)
+- **Fedora / RHEL / Bazzite / openSUSE:** add the [OBS repository](https://build.opensuse.org/project/show/home:7sh1d0w7x:linux-doctor) and `sudo dnf install linux-doctor`, or build with the [linux-doctor.spec](packaging/linux-doctor.spec)
 - **Debian / Ubuntu:** `.deb` from [Latest release](https://github.com/zShaD0w7x/linux-doctor/releases/latest)
 - **Any glibc distro:** AppImage or `npx github:zShaD0w7x/linux-doctor`
 

@@ -4,47 +4,38 @@ OBS builds RPMs for **Fedora, RHEL/CentOS, openSUSE and others** from one spec
 and hosts a repository users can add. It is the COPR alternative that does
 **not** need a Fedora account.
 
-## One-time setup
+## Live project
 
-1. Create an openSUSE account: <https://id.opensuse.org/> → Register.
-2. Install `osc` (the CLI): `sudo zypper in osc` (openSUSE),
-   `sudo dnf install osc` (Fedora), `sudo pacman -S osc` (Arch).
-   On immutable Fedora: `rpm-ostree install osc`.
-3. Log in once (writes `~/.config/osc/oscrc`):
-   ```bash
-   osc -A https://api.opensuse.org ls
-   ```
+- Project: `home:7sh1d0w7x:linux-doctor` — repository `Fedora_42`
+- Web: <https://build.opensuse.org/project/show/home:7sh1d0w7x:linux-doctor>
+- Users install it with:
+  ```bash
+  sudo dnf config-manager --add-repo \
+    https://download.opensuse.org/repositories/home:/7sh1d0w7x:/linux-doctor/Fedora_42/home:7sh1d0w7x:linux-doctor.repo
+  sudo dnf install linux-doctor
+  ```
 
-## Create the project (web UI is easiest)
+## One-time setup (already done)
 
-1. Sign in at <https://build.opensuse.org/>.
-2. Your `home:<username>` project already exists; add a subproject, e.g.
-   `home:<username>:linux-doctor`.
-3. Project → **Repositories** → add **Fedora 42** (and, optionally,
-   RHEL/CentOS and openSUSE Leap/Tumbleweed).
-4. Users then add the repo, e.g.:
-   ```
-   sudo dnf config-manager --add-repo \
-     https://download.opensuse.org/repositories/home:/<username>:/linux-doctor/Fedora_42/home:<username>:linux-doctor.repo
-   ```
+1. openSUSE account: <https://id.opensuse.org/>.
+2. `osc` installed and logged in (credentials in `~/.config/osc/oscrc`).
 
-## Upload and build
+## Publishing a new version
+
+The source services were not available on this OBS instance, so the tarball is
+uploaded by hand. `linux-doctor.spec` here is a copy of
+[`../linux-doctor.spec`](../linux-doctor.spec) — re-copy it on a version bump.
 
 ```bash
-osc checkout home:<username>:linux-doctor
-cd home:<username>:linux-doctor
+osc checkout home:7sh1d0w7x:linux-doctor
+cd home:7sh1d0w7x:linux-doctor/linux-doctor
 cp <repo>/packaging/obs/linux-doctor.spec .
-cp <repo>/packaging/obs/_service .
-osc add linux-doctor.spec _service
-osc commit
+curl -sLO https://github.com/zShaD0w7x/linux-doctor/releases/download/v<version>/linux-doctor-<version>.tgz
+osc add linux-doctor.spec linux-doctor-<version>.tgz
+osc commit -m "linux-doctor <version>"
+osc results home:7sh1d0w7x:linux-doctor
 ```
 
-OBS runs the `download_files` service, fetches the release tarball named in
-`Source0`, and builds. Watch it in the web UI or with `osc results`.
-
-## Notes
-
-- `linux-doctor.spec` here is a copy of [`../linux-doctor.spec`](../linux-doctor.spec)
-  (COPR and local `rpmbuild` use that one); re-copy it on every version bump.
-- The package is `noarch` and needs Node ≥ 20 at runtime. If a chroot does not
-  resolve `nodejs`, pin `nodejs20` for that repository with a `%if 0%{?suse_version}`.
+Add a repository per distro in the project (Fedora 42 is enabled; add
+RHEL/CentOS or openSUSE chroots in the web UI when needed — the package is
+`noarch` and needs Node ≥ 20 at runtime).

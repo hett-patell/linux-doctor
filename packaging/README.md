@@ -51,9 +51,17 @@ copr-cli build linux-doctor packaging/linux-doctor.spec
 ## openSUSE Build Service (OBS) — COPR without a Fedora account
 
 OBS builds the same spec for Fedora/RHEL/openSUSE and hosts the repository, so
-users can add it and update with their package manager. The package files live
-in [`obs/`](obs/README.md); see [obs/README.md](obs/README.md) for the
-account, project and upload steps.
+users add it and update with their package manager. Live project:
+`home:7sh1d0w7x:linux-doctor`.
+
+```bash
+sudo dnf config-manager --add-repo \
+  https://download.opensuse.org/repositories/home:/7sh1d0w7x:/linux-doctor/Fedora_42/home:7sh1d0w7x:linux-doctor.repo
+sudo dnf install linux-doctor
+```
+
+Package files: [`obs/`](obs/README.md); publishing steps in
+[obs/README.md](obs/README.md).
 
 ## Debian/Ubuntu
 

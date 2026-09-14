@@ -7,7 +7,7 @@ Release:        1%{?dist}
 Summary:        Read-only health checks for your Linux system
 License:        GPL-3.0-or-later
 URL:            https://github.com/zShaD0w7x/linux-doctor
-Source0:        %{url}/releases/download/v%{version}/%{name}-%{version}.tgz
+Source0:        https://github.com/zShaD0w7x/linux-doctor/releases/download/v%{version}/%{name}-%{version}.tgz
 BuildArch:      noarch
 Requires:       nodejs >= 20
 
