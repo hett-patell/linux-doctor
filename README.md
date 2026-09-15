@@ -98,6 +98,11 @@ WEBKIT_DISABLE_DMABUF_RENDERER=1 ./linux-doctor-*-x86_64.AppImage
 # still blank? also try:
 LIBGL_ALWAYS_SOFTWARE=1 WEBKIT_DISABLE_COMPOSITING_MODE=1 ./linux-doctor-*-x86_64.AppImage
 ```
+
+If it is **still** blank, the AppImage's **bundled** WebKitGTK is incompatible
+with your host's driver stack (seen on very new Mesa and NVIDIA). Install the
+`.deb`/`.rpm` — or the [OBS package](#install--first-run-cli) — instead: those
+use the WebKitGTK shipped by your distribution, which matches the host.
 </details>
 
 ## Install & first run (CLI)
