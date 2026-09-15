@@ -17,3 +17,6 @@ launch/
 src-tauri/runtime/
 .demo-app-frames/
 .watchlist
+# local-only detection tooling (never published — fingerprints stay private)
+scripts/check-clones.mjs
+docs/monitoring.md

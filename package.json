@@ -32,7 +32,6 @@
     "goldens:update": "node scripts/update-goldens.mjs",
     "demo:gif": "node scripts/demo-gif.mjs",
     "demo:app": "bash scripts/demo-app-gif.sh",
-    "check:clones": "node scripts/check-clones.mjs",
     "build:gui": "node scripts/build-gui.mjs",
     "gui:dev": "node scripts/fetch-node-runtime.mjs && tauri dev",
     "gui:build": "node scripts/fetch-node-runtime.mjs && tauri build"

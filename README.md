@@ -227,7 +227,6 @@ report still works.
 | [docs/configuration.md](docs/configuration.md) | ignore list, thresholds, plugins, caching, immutable-distro behavior |
 | [docs/integrations.md](docs/integrations.md) | JSON schema v1, `--support` bundles, optional AI summary, fleet reporting |
 | [docs/severity.md](docs/severity.md) | how severities are decided |
-| [docs/monitoring.md](docs/monitoring.md) | watching for clones and impersonation (`scripts/check-clones.mjs`) |
 | [docs/trademark.md](docs/trademark.md) | the name/logo vs. the code license |
 | [CHANGELOG.md](CHANGELOG.md) | every release, Keep-a-Changelog style |
 
