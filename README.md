@@ -76,22 +76,27 @@ no Node on `PATH`. `LINUX_DOCTOR_NODE=/path/to/node` still overrides it.
 > Installed size: the bundled runtime adds roughly 130 MB to the package.
 
 <details>
-<summary>AppImage graphics troubleshooting (very new Mesa, v0.3.2 and older)</summary>
+<summary>Troubleshooting: blank/white window or EGL errors (AppImage, very new Mesa)</summary>
 
-The bundle's WebKitGTK comes from an older LTS base and its accelerated
-paths can abort against bleeding-edge host Mesa (`Could not create default
-EGL display`). This is about the host's Mesa driver stack, not the GPU
-brand: **AMD and Intel** graphics (and nouveau) all run on Mesa and are
-equally exposed; NVIDIA's proprietary driver ships its own stack and is
-unlikely to hit it.
+The bundle's WebKitGTK comes from an older LTS base; its accelerated paths can
+abort against bleeding-edge host Mesa (`Could not create default EGL display`)
+or paint a blank/white webview. This is about the host's driver stack, not the
+GPU brand: **AMD and Intel** graphics (and nouveau) all run on Mesa and are
+equally exposed; NVIDIA's proprietary driver ships its own stack.
 
-**Current builds handle this automatically** — the AppImage defaults to
-software GL on launch (a diagnostics dashboard does not need GPU anyway).
-Set `LINUX_DOCTOR_HARDWARE_GL=1` to force hardware rendering. On v0.3.2
-or older, launch with:
+**Current builds handle both automatically** before any GTK/WebKit code runs:
+
+- the AppImage defaults to software GL (a diagnostics dashboard does not need
+  GPU anyway) — set `LINUX_DOCTOR_HARDWARE_GL=1` to force hardware rendering;
+- WebKit's DMA-BUF renderer is disabled (the usual cause of a white window) —
+  set `WEBKIT_DISABLE_DMABUF_RENDERER=0` to opt back in.
+
+On older builds, launch with either (or both):
 
 ```bash
-LIBGL_ALWAYS_SOFTWARE=1 ./linux-doctor-*-x86_64.AppImage
+WEBKIT_DISABLE_DMABUF_RENDERER=1 ./linux-doctor-*-x86_64.AppImage
+# still blank? also try:
+LIBGL_ALWAYS_SOFTWARE=1 WEBKIT_DISABLE_COMPOSITING_MODE=1 ./linux-doctor-*-x86_64.AppImage
 ```
 </details>
 
