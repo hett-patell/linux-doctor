@@ -231,6 +231,13 @@ report still works.
 | [docs/trademark.md](docs/trademark.md) | the name/logo vs. the code license |
 | [CHANGELOG.md](CHANGELOG.md) | every release, Keep-a-Changelog style |
 
+## Community
+
+Questions, ideas and show-your-setup go to
+[GitHub Discussions](https://github.com/zShaD0w7x/linux-doctor/discussions);
+bugs and check requests to [Issues](https://github.com/zShaD0w7x/linux-doctor/issues).
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Roadmap
 
 - ~~GUI with a one-click report~~ — shipped: a Tauri desktop app
