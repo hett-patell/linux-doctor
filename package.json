@@ -56,9 +56,20 @@
   "keywords": [
     "linux",
     "diagnostics",
-    "health",
+    "troubleshooting",
+    "health-check",
     "system",
-    "cli"
+    "sysadmin",
+    "devops",
+    "cli",
+    "monitoring",
+    "observability",
+    "systemd",
+    "shell",
+    "homelab",
+    "self-hosted",
+    "tauri",
+    "linux-tools"
   ],
   "license": "GPL-3.0-or-later"
 }
