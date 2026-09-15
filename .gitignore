@@ -16,3 +16,4 @@ docs/screenshots/audit-*/
 launch/
 src-tauri/runtime/
 .demo-app-frames/
+.watchlist

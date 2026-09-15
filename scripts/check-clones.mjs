@@ -11,6 +11,7 @@
  * 0 — this is a report, not a gate.
  */
 import { spawnSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
 
 const ME = "zShaD0w7x";
 const MY_NAMES = ["zShaD0w7x", "7sh1d0w7x"]; // GitHub handle, npm handle
@@ -86,4 +87,30 @@ if (!hits.length) {
   console.log(`Possible look-alikes (${hits.length}):`);
   for (const h of hits) console.log("  - " + h);
   console.log("\nA similar name is normal; copied code or impersonation is not.");
+}
+
+// 6. Watchlist — optional, gitignored "owner/repo" lines to re-check each run.
+const WL = process.env.LD_WATCHLIST || ".watchlist";
+if (existsSync(WL)) {
+  const entries = readFileSync(WL, "utf8")
+    .split("\n")
+    .map((l) => l.replace(/#.*$/, "").trim())
+    .filter(Boolean);
+  if (entries.length) {
+    console.log(`\nWatchlist (${entries.length}):`);
+    for (const repo of entries) {
+      const info = ghJson(["api", `repos/${repo}`]);
+      if (!info) {
+        console.log(`  - ${repo}: not found / not accessible`);
+        continue;
+      }
+      const releases = ghJson(["api", `repos/${repo}/releases`]) ?? [];
+      const flags = [];
+      if (info.license?.spdx_id && info.license.spdx_id !== "GPL-3.0") flags.push(`license=${info.license.spdx_id}`);
+      if (!info.fork) flags.push("no longer a fork");
+      if (releases.length) flags.push(`${releases.length} release(s)`);
+      const status = `license=${info.license?.spdx_id ?? "none"} fork=${info.fork} stars=${info.stargazers_count} pushed=${(info.pushed_at || "").slice(0, 10)}`;
+      console.log(`  - ${repo}: ${status}${flags.length ? `  ⚠ ${flags.join("; ")}` : ""}`);
+    }
+  }
 }
