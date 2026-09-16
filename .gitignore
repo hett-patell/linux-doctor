@@ -6,17 +6,5 @@ node_modules/
 # Tauri (desktop app)
 src-tauri/target/
 src-tauri/gen/
-PRO_BOARD_PRIVATE.md
-pro/
-# internal planning docs (kept local only, never published)
-docs/research-*
-docs/audit-*
-docs/analiza-*
-docs/screenshots/audit-*/
-launch/
 src-tauri/runtime/
 .demo-app-frames/
-.watchlist
-# internal docs + local-only detection tooling (never published)
-internal/
-scripts/check-clones.mjs
